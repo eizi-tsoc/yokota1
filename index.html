@@ -2,61 +2,65 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>資格確認結果連絡書 変換ツール</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>診療報酬 CSV→Excel 変換ツール</title>
 <script src="exceljs.min.js"></script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "Meiryo","Yu Gothic",Arial,sans-serif; background:#f0f4f8; color:#1a1a2e; min-height:100vh; }
-  header { background:#1F4E79; color:#fff; padding:16px 32px; display:flex; align-items:center; gap:12px; }
-  header svg { width:28px; height:28px; flex-shrink:0; }
-  header h1 { font-size:17px; font-weight:700; }
-  header p  { font-size:12px; opacity:.75; margin-top:2px; }
-  main { max-width:820px; margin:32px auto; padding:0 16px 60px; }
-  .card { background:#fff; border-radius:12px; border:1px solid #dce6f0; padding:24px 28px; margin-bottom:20px; }
-  .card-title { font-size:12px; font-weight:700; color:#1F4E79; text-transform:uppercase; letter-spacing:.06em; margin-bottom:16px; display:flex; align-items:center; gap:7px; }
-  .card-title::before { content:''; display:inline-block; width:4px; height:16px; background:#2E75B6; border-radius:2px; }
-  .drop-zone { border:2px dashed #93b8d8; border-radius:10px; background:#f5f9fd; padding:36px 20px; text-align:center; cursor:pointer; transition:border-color .2s,background .2s; position:relative; }
-  .drop-zone:hover,.drop-zone.over { border-color:#2E75B6; background:#e8f2fb; }
-  .drop-zone input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
-  .drop-icon { font-size:40px; margin-bottom:10px; }
-  .drop-zone p { font-size:14px; color:#4a6e8a; margin-bottom:4px; }
-  .drop-zone span { font-size:12px; color:#8099aa; }
-  .file-list { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
-  .file-item { display:flex; align-items:center; gap:10px; padding:10px 14px; background:#f5f9fd; border:1px solid #dce6f0; border-radius:8px; font-size:13px; }
-  .file-name { flex:1; font-weight:600; color:#1F4E79; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .file-size { color:#8099aa; font-size:12px; white-space:nowrap; }
-  .file-remove { background:none; border:none; cursor:pointer; color:#aaa; font-size:18px; line-height:1; padding:2px 4px; border-radius:4px; }
-  .file-remove:hover { color:#c0392b; background:#fdecea; }
-  .options-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-  .opt-group label { display:block; font-size:12px; color:#5a7a94; font-weight:700; margin-bottom:6px; }
-  .opt-group select { width:100%; padding:8px 10px; font-size:13px; border:1px solid #c5d8e8; border-radius:7px; background:#f5f9fd; color:#1a1a2e; font-family:inherit; cursor:pointer; }
-  .btn-convert { width:100%; padding:14px; font-size:15px; font-weight:700; background:#1F4E79; color:#fff; border:none; border-radius:10px; cursor:pointer; transition:background .15s; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; }
-  .btn-convert:hover:not(:disabled) { background:#2E75B6; }
-  .btn-convert:disabled { opacity:.4; cursor:not-allowed; }
-  .progress-wrap { margin-top:14px; display:none; }
-  .progress-bg { background:#e2ecf5; border-radius:99px; height:7px; overflow:hidden; margin-bottom:6px; }
-  .progress-fill { height:100%; background:#2E75B6; border-radius:99px; transition:width .3s; width:0; }
-  .progress-msg { font-size:12px; color:#5a7a94; }
-  .results { margin-top:14px; display:flex; flex-direction:column; gap:8px; }
-  .result-item { display:flex; align-items:center; gap:10px; padding:12px 16px; border-radius:8px; font-size:13px; border:1px solid #dce6f0; background:#fff; }
-  .result-item.ok  { border-color:#a3d4b0; background:#f2fbf5; }
-  .result-item.err { border-color:#f5b8b8; background:#fdf3f3; }
-  .result-info { flex:1; }
-  .result-name { font-weight:700; color:#1a1a2e; }
-  .result-detail { font-size:12px; color:#6a8a9a; margin-top:2px; }
-  .badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:99px; white-space:nowrap; }
-  .badge-ok  { background:#d4edd9; color:#1e6b33; }
-  .badge-err { background:#fad8d8; color:#9b1c1c; }
-  .btn-dl { display:flex; align-items:center; gap:5px; padding:7px 14px; font-size:12px; font-weight:600; border:1px solid #93b8d8; border-radius:7px; background:#fff; color:#1F4E79; cursor:pointer; text-decoration:none; white-space:nowrap; font-family:inherit; transition:background .15s; }
-  .btn-dl:hover { background:#e8f2fb; }
-  .guide-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-  .step { text-align:center; padding:16px 10px; background:#f5f9fd; border-radius:10px; border:1px solid #dce6f0; }
-  .step-num { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:#2E75B6; color:#fff; font-size:13px; font-weight:700; margin-bottom:8px; }
-  .step-icon { font-size:22px; margin-bottom:6px; }
-  .step-text { font-size:12px; color:#4a6e8a; line-height:1.5; }
-  .notice { margin-top:16px; padding:10px 14px; background:#fff8e6; border:1px solid #f5d07a; border-radius:8px; font-size:12px; color:#7a5800; }
-  footer { text-align:center; font-size:12px; color:#8099aa; padding:20px; border-top:1px solid #dce6f0; margin-top:20px; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Meiryo","Yu Gothic",Arial,sans-serif;background:#f0f4f8;color:#1a1a2e;min-height:100vh}
+header{background:#1F4E79;color:#fff;padding:14px 28px;display:flex;align-items:center;gap:12px}
+header svg{width:26px;height:26px;flex-shrink:0}
+header h1{font-size:16px;font-weight:700}
+header p{font-size:11px;opacity:.75;margin-top:2px}
+main{max-width:860px;margin:28px auto;padding:0 16px 60px}
+.card{background:#fff;border-radius:12px;border:1px solid #dce6f0;padding:22px 26px;margin-bottom:18px}
+.card-title{font-size:11px;font-weight:700;color:#1F4E79;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.card-title::before{content:'';display:inline-block;width:4px;height:15px;background:#2E75B6;border-radius:2px}
+.drop-zone{border:2px dashed #93b8d8;border-radius:10px;background:#f5f9fd;padding:32px 20px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;position:relative}
+.drop-zone:hover,.drop-zone.over{border-color:#2E75B6;background:#e8f2fb}
+.drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.drop-zone p{font-size:14px;color:#4a6e8a;margin-bottom:4px}
+.drop-zone span{font-size:11px;color:#8099aa}
+.file-list{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+.file-item{display:flex;align-items:center;gap:9px;padding:9px 13px;background:#f5f9fd;border:1px solid #dce6f0;border-radius:8px;font-size:12px}
+.file-name{flex:1;font-weight:700;color:#1F4E79;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.file-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:99px;white-space:nowrap;flex-shrink:0}
+.badge-A{background:#DEEAF1;color:#1F4E79}
+.badge-B{background:#E2EFDA;color:#375623}
+.badge-C{background:#FFF2CC;color:#7F6000}
+.badge-D{background:#EDE7F6;color:#4527A0}
+.badge-?{background:#F0F0F0;color:#666}
+.file-size{color:#8099aa;font-size:11px;white-space:nowrap}
+.file-remove{background:none;border:none;cursor:pointer;color:#aaa;font-size:17px;line-height:1;padding:2px 4px;border-radius:4px}
+.file-remove:hover{color:#c0392b;background:#fdecea}
+.opt-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.opt-group label{display:block;font-size:11px;color:#5a7a94;font-weight:700;margin-bottom:5px}
+.opt-group select{width:100%;padding:7px 9px;font-size:12px;border:1px solid #c5d8e8;border-radius:7px;background:#f5f9fd;color:#1a1a2e;font-family:inherit;cursor:pointer}
+.btn-convert{width:100%;padding:13px;font-size:14px;font-weight:700;background:#1F4E79;color:#fff;border:none;border-radius:10px;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+.btn-convert:hover:not(:disabled){background:#2E75B6}
+.btn-convert:disabled{opacity:.4;cursor:not-allowed}
+.prog-wrap{margin-top:13px;display:none}
+.prog-bg{background:#e2ecf5;border-radius:99px;height:6px;overflow:hidden;margin-bottom:5px}
+.prog-fill{height:100%;background:#2E75B6;border-radius:99px;transition:width .3s;width:0}
+.prog-msg{font-size:11px;color:#5a7a94}
+.results{margin-top:13px;display:flex;flex-direction:column;gap:7px}
+.result-item{display:flex;align-items:center;gap:9px;padding:11px 14px;border-radius:8px;font-size:12px;border:1px solid #dce6f0;background:#fff}
+.result-item.ok{border-color:#a3d4b0;background:#f2fbf5}
+.result-item.err{border-color:#f5b8b8;background:#fdf3f3}
+.result-info{flex:1}
+.result-name{font-weight:700;color:#1a1a2e}
+.result-detail{font-size:11px;color:#6a8a9a;margin-top:2px}
+.rbadge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.rbadge-ok{background:#d4edd9;color:#1e6b33}
+.rbadge-err{background:#fad8d8;color:#9b1c1c}
+.btn-dl{display:flex;align-items:center;gap:4px;padding:6px 13px;font-size:11px;font-weight:700;border:1px solid #93b8d8;border-radius:7px;background:#fff;color:#1F4E79;cursor:pointer;text-decoration:none;white-space:nowrap;font-family:inherit;transition:background .15s}
+.btn-dl:hover{background:#e8f2fb}
+.pattern-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.pl-item{padding:8px 10px;border-radius:7px;border:1px solid #dce6f0;font-size:11px}
+.pl-name{font-weight:700;margin-bottom:2px}
+.pl-files{color:#6a8a9a;font-size:10px}
+.notice{margin-top:14px;padding:9px 13px;background:#fff8e6;border:1px solid #f5d07a;border-radius:8px;font-size:11px;color:#7a5800}
+footer{text-align:center;font-size:11px;color:#8099aa;padding:18px;border-top:1px solid #dce6f0;margin-top:18px}
 </style>
 </head>
 <body>
@@ -68,51 +72,41 @@
     <line x1="8" y1="17" x2="16" y2="17"/>
   </svg>
   <div>
-    <h1>資格確認結果連絡書 変換ツール</h1>
-    <p>CSVファイルを色付き・印刷対応のExcel（.xlsx）に変換します</p>
+    <h1>診療報酬 CSV→Excel 変換ツール</h1>
+    <p>全7種類のCSVファイルを色付き・印刷対応Excelに自動変換</p>
   </div>
 </header>
 
 <main>
   <div class="card">
-    <div class="card-title">使い方</div>
-    <div class="guide-steps">
-      <div class="step"><div class="step-num">1</div><div class="step-icon">📂</div><div class="step-text">CSVファイルを<br>ドロップ or 選択</div></div>
-      <div class="step"><div class="step-num">2</div><div class="step-icon">⚙️</div><div class="step-text">オプションを<br>設定（任意）</div></div>
-      <div class="step"><div class="step-num">3</div><div class="step-icon">⚡</div><div class="step-text">「変換」ボタンを<br>クリック</div></div>
-      <div class="step"><div class="step-num">4</div><div class="step-icon">💾</div><div class="step-text">Excelファイルを<br>ダウンロード</div></div>
+    <div class="card-title">対応ファイル一覧</div>
+    <div class="pattern-legend">
+      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-A">パターン A</span></div><div class="pl-files" style="margin-top:5px">RIskkg・RIskks<br>資格確認結果連絡書</div></div>
+      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-B">パターン B</span></div><div class="pl-files" style="margin-top:5px">RIedbn<br>枝番特定結果</div></div>
+      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-C">パターン C</span></div><div class="pl-files" style="margin-top:5px">RIhenr・RIzogn<br>返戻・増減点（国保）</div></div>
+      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-D">パターン D</span></div><div class="pl-files" style="margin-top:5px">MIsast・MIshst<br>増減点（社保）</div></div>
     </div>
-    <div class="notice">🔒 このツールはブラウザ内のみで処理します。CSVファイルの内容は外部サーバーへ一切送信されません。</div>
+    <div class="notice">🔒 すべての処理はブラウザ内のみで完結します。CSVの内容は外部サーバーへ一切送信されません。</div>
   </div>
 
   <div class="card">
     <div class="card-title">ファイル選択</div>
     <div class="drop-zone" id="dropZone">
       <input type="file" id="fileInput" accept=".csv" multiple>
-      <div class="drop-icon">📄</div>
       <p>CSVファイルをここにドラッグ＆ドロップ</p>
-      <span>または クリックしてファイルを選択 ・ 複数同時対応</span>
+      <span>クリックして選択も可 ・ 複数ファイル同時対応 ・ 種類が混在していてもOK</span>
     </div>
     <div class="file-list" id="fileList"></div>
   </div>
 
   <div class="card">
     <div class="card-title">出力オプション</div>
-    <div class="options-grid">
-      <div class="opt-group">
-        <label>用紙サイズ</label>
-        <select id="paperSize">
-          <option value="A4">A4 横（推奨）</option>
-          <option value="A3">A3 横</option>
-        </select>
+    <div class="opt-grid">
+      <div class="opt-group"><label>用紙サイズ</label>
+        <select id="paperSize"><option value="A4">A4 横（推奨）</option><option value="A3">A3 横</option></select>
       </div>
-      <div class="opt-group">
-        <label>フォント</label>
-        <select id="fontName">
-          <option value="Meiryo">メイリオ</option>
-          <option value="Arial">Arial</option>
-          <option value="MS Gothic">MSゴシック</option>
-        </select>
+      <div class="opt-group"><label>フォント</label>
+        <select id="fontName"><option value="Meiryo">メイリオ</option><option value="Arial">Arial</option><option value="MS Gothic">MSゴシック</option></select>
       </div>
     </div>
   </div>
@@ -120,344 +114,527 @@
   <div class="card">
     <div class="card-title">変換・ダウンロード</div>
     <button class="btn-convert" id="convertBtn" disabled>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
         <polyline points="8 17 12 21 16 17"/><line x1="12" y1="21" x2="12" y2="9"/>
         <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/>
       </svg>
       Excel に変換してダウンロード
     </button>
-    <div class="progress-wrap" id="progressWrap">
-      <div class="progress-bg"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-msg" id="progressMsg">処理中...</div>
+    <div class="prog-wrap" id="progWrap">
+      <div class="prog-bg"><div class="prog-fill" id="progFill"></div></div>
+      <div class="prog-msg" id="progMsg">処理中...</div>
     </div>
     <div class="results" id="results"></div>
   </div>
 </main>
-
-<footer>資格確認結果連絡書 変換ツール &nbsp;|&nbsp; ブラウザのみで動作・データ送信なし</footer>
+<footer>診療報酬 CSV→Excel 変換ツール ／ ブラウザ内処理・データ送信なし</footer>
 
 <script>
-/* ══════════════════════════════════════════
-   UI
-══════════════════════════════════════════ */
-const dropZone    = document.getElementById('dropZone');
-const fileInput   = document.getElementById('fileInput');
-const fileListEl  = document.getElementById('fileList');
-const convertBtn  = document.getElementById('convertBtn');
-const progressWrap= document.getElementById('progressWrap');
-const progressFill= document.getElementById('progressFill');
-const progressMsg = document.getElementById('progressMsg');
-const resultsEl   = document.getElementById('results');
-let files = [];
+/* ══════════════════════════════════════
+   定数・カラー
+══════════════════════════════════════ */
+const C={
+  TITLE_BG:'1F4E79', META_BG:'D6E4F7', META_TXT:'1F4E79',
+  HEAD_BLUE:'2E75B6', HEAD_GREEN:'375623', HEAD_AMBER:'7F6000', HEAD_PURPLE:'4527A0',
+  LBL_BLUE_BG:'DEEAF1', LBL_BLUE_TXT:'1F4E79',
+  LBL_GREEN_BG:'E2EFDA', LBL_GREEN_TXT:'375623',
+  LBL_RED_BG:'FCE4EC',  LBL_RED_TXT:'880E4F',
+  ALT:'EBF3FB', WHITE:'FFFFFF', SEP:'BFBFBF', DIV:'D9D9D9',
+  RED_TXT:'9B0000', MINUS_TXT:'833233',
+};
+const BORDER_COLOR='AAAAAA';
 
-dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('over'); });
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('over'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault(); dropZone.classList.remove('over');
-  addFiles([...e.dataTransfer.files].filter(f => f.name.toLowerCase().endsWith('.csv')));
-});
-fileInput.addEventListener('change', () => { addFiles([...fileInput.files]); fileInput.value=''; });
-
-function addFiles(newFiles) {
-  newFiles.forEach(f => { if (!files.find(x => x.name===f.name)) files.push(f); });
-  renderFileList();
+/* パターン判定 */
+function detectPattern(fname){
+  const p=fname.toUpperCase();
+  if(p.startsWith('RISKKG')||p.startsWith('RISKKS')) return 'A';
+  if(p.startsWith('RIEDBN')) return 'B';
+  if(p.startsWith('RIHENR')||p.startsWith('RIZOGN')) return 'C';
+  if(p.startsWith('MISAST')||p.startsWith('MISHST')) return 'D';
+  return '?';
 }
-function renderFileList() {
+const BADGE_CLASS={'A':'badge-A','B':'badge-B','C':'badge-C','D':'badge-D','?':'badge-?'};
+const BADGE_LABEL={'A':'パターン A','B':'パターン B','C':'パターン C','D':'パターン D','?':'不明'};
+
+/* ══════════════════════════════════════
+   UI
+══════════════════════════════════════ */
+const dropZone=document.getElementById('dropZone');
+const fileInput=document.getElementById('fileInput');
+const fileListEl=document.getElementById('fileList');
+const convertBtn=document.getElementById('convertBtn');
+const progWrap=document.getElementById('progWrap');
+const progFill=document.getElementById('progFill');
+const progMsg=document.getElementById('progMsg');
+const resultsEl=document.getElementById('results');
+let files=[];
+
+dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('over')});
+dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('over'));
+dropZone.addEventListener('drop',e=>{
+  e.preventDefault();dropZone.classList.remove('over');
+  addFiles([...e.dataTransfer.files].filter(f=>f.name.toLowerCase().endsWith('.csv')));
+});
+fileInput.addEventListener('change',()=>{addFiles([...fileInput.files]);fileInput.value='';});
+
+function addFiles(nf){nf.forEach(f=>{if(!files.find(x=>x.name===f.name))files.push(f);});renderFileList();}
+function renderFileList(){
   fileListEl.innerHTML='';
-  files.forEach((f,i) => {
-    const d=document.createElement('div'); d.className='file-item';
-    d.innerHTML=`<span>📄</span><span class="file-name">${f.name}</span><span class="file-size">${(f.size/1024).toFixed(1)} KB</span><button class="file-remove" data-i="${i}">✕</button>`;
+  files.forEach((f,i)=>{
+    const pat=detectPattern(f.name);
+    const d=document.createElement('div');d.className='file-item';
+    d.innerHTML=`<span>📄</span><span class="file-name">${f.name}</span><span class="file-badge ${BADGE_CLASS[pat]}">${BADGE_LABEL[pat]}</span><span class="file-size">${(f.size/1024).toFixed(1)}KB</span><button class="file-remove" data-i="${i}">✕</button>`;
     fileListEl.appendChild(d);
   });
-  fileListEl.querySelectorAll('.file-remove').forEach(btn =>
-    btn.addEventListener('click',()=>{ files.splice(+btn.dataset.i,1); renderFileList(); })
-  );
-  convertBtn.disabled = files.length===0;
+  fileListEl.querySelectorAll('.file-remove').forEach(b=>b.addEventListener('click',()=>{files.splice(+b.dataset.i,1);renderFileList();}));
+  convertBtn.disabled=files.length===0;
 }
 
-/* ══════════════════════════════════════════
-   CSV 読み込み（Shift-JIS）
-══════════════════════════════════════════ */
-function readShiftJIS(file) {
-  return new Promise((res,rej) => {
+/* ══════════════════════════════════════
+   CSV読み込み
+══════════════════════════════════════ */
+function readSJIS(file){
+  return new Promise((res,rej)=>{
     const r=new FileReader();
-    r.onload=e => {
-      try { res(new TextDecoder('shift-jis').decode(new Uint8Array(e.target.result))); }
-      catch { res(new TextDecoder('utf-8').decode(new Uint8Array(e.target.result))); }
+    r.onload=e=>{
+      try{res(new TextDecoder('shift-jis').decode(new Uint8Array(e.target.result)));}
+      catch{res(new TextDecoder('utf-8').decode(new Uint8Array(e.target.result)));}
     };
-    r.onerror=rej;
-    r.readAsArrayBuffer(file);
+    r.onerror=rej;r.readAsArrayBuffer(file);
   });
 }
-function parseCSV(text) {
+function parseCSV(text){
   return text.split(/\r?\n/).filter(l=>l.trim()).map(line=>{
-    const cols=[]; let cur=''; let inQ=false;
-    for (const ch of line){
-      if(ch==='"'){inQ=!inQ;}
-      else if(ch===','&&!inQ){cols.push(cur);cur='';}
-      else cur+=ch;
-    }
-    cols.push(cur); return cols;
+    const cols=[];let cur='';let inQ=false;
+    for(const ch of line){if(ch==='"'){inQ=!inQ;}else if(ch===','&&!inQ){cols.push(cur);cur='';}else cur+=ch;}
+    cols.push(cur);return cols;
   });
 }
-function parseData(rows) {
+
+/* ══════════════════════════════════════
+   ExcelJS ヘルパー
+══════════════════════════════════════ */
+function thin(c=BORDER_COLOR){return{style:'thin',color:{argb:'FF'+c}};}
+function noB(){return{style:'thin',color:{argb:'FFEEEEEE'}};}
+
+function sc(ws,r,c,val,opts={}){
+  const cell=ws.getCell(r,c);
+  cell.value=val;
+  cell.font={name:opts.font||'Meiryo',size:opts.size||9,bold:opts.bold||false,color:{argb:'FF'+(opts.color||'000000')}};
+  cell.alignment={horizontal:opts.align||'left',vertical:'middle',wrapText:opts.wrap||false};
+  if(opts.bg) cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+opts.bg}};
+  const b=opts.border!==false;
+  cell.border={left:b?thin():noB(),right:b?thin():noB(),top:b?thin():noB(),bottom:b?thin():noB()};
+  return cell;
+}
+function mc(ws,r,c1,c2,val,opts={}){
+  ws.mergeCells(r,c1,r,c2);
+  sc(ws,r,c1,val,opts);
+  for(let c=c1+1;c<=c2;c++){
+    const cell=ws.getCell(r,c);
+    const b=opts.border!==false;
+    cell.border={top:b?thin():noB(),bottom:b?thin():noB()};
+  }
+}
+function titleRows(ws,meta,totalCols,font,headColor){
+  ws.getRow(1).height=20;
+  mc(ws,1,1,totalCols,meta.title,{font,size:11,bold:true,color:'FFFFFF',bg:C.TITLE_BG,align:'center'});
+  ws.getRow(2).height=15;
+  mc(ws,2,1,Math.floor(totalCols/2),meta.institution,{font,size:8,bold:true,color:C.META_TXT,bg:C.META_BG,align:'left'});
+  mc(ws,2,Math.floor(totalCols/2)+1,totalCols,meta.issuer,{font,size:8,color:'333333',bg:C.META_BG,align:'right'});
+  return 3;
+}
+function divRow(ws,r,totalCols){
+  ws.getRow(r).height=4;
+  for(let c=1;c<=totalCols;c++){
+    const cell=ws.getCell(r,c);
+    cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+C.DIV}};
+    cell.border={};
+  }
+}
+function setupPrint(ws,paperSize){
+  ws.pageSetup={paperSize:paperSize==='A3'?8:9,orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:1};
+  ws.pageSetup.margins={left:.5,right:.5,top:.5,bottom:.5,header:.3,footer:.3};
+  ws.views=[{showGridLines:false}];
+}
+
+/* ══════════════════════════════════════
+   パターンA: 資格確認結果連絡書
+══════════════════════════════════════ */
+function parseA(rows){
   const meta={
-    title:           (rows[0][1]||'').trim(),
-    institution_code:(rows[0][3]||'').trim(),
-    institution_name:(rows[0][4]||'').trim(),
-    issuer:          (rows[0][5]||'').trim(),
+    title:(rows[0][1]||'').trim(),
+    institution:(rows[0][3]||'').trim()+' '+(rows[0][4]||'').trim(),
+    issuer:(rows[0][5]||'').trim()
   };
-  const patients=[]; let cur=null;
-  for (const row of rows.slice(2)){
-    if(!row[0]) continue;
+  const patients=[];let cur=null;
+  for(const row of rows.slice(2)){
+    if(!row[0])continue;
     if(row[0]==='3'){
-      if(cur) patients.push(cur);
+      if(cur)patients.push(cur);
       cur={年月:(row[1]||'').trim(),保険者:(row[2]||'').trim(),氏名:(row[3]||'').trim(),
            カルテ:'',生年月日:(row[4]||'').trim(),処理区分:(row[5]||'').trim(),請求:{},結果:{}};
-    } else if(row[0]==='4'&&cur){
-      if((row[3]||'').trim()) cur.カルテ=row[3].trim();
-      const kv=s=>{ const i=s.indexOf('：'); return i<0?[null,null]:[s.slice(0,i).trim(),s.slice(i+1).trim()]; };
-      const [k1,v1]=kv(row[6]||''); if(k1) cur.請求[k1]=v1;
-      const [k2,v2]=kv(row[8]||''); if(k2) cur.結果[k2]=v2;
+    }else if(row[0]==='4'&&cur){
+      if((row[3]||'').trim())cur.カルテ=row[3].trim();
+      const kv=s=>{const i=s.indexOf('：');return i<0?[null,null]:[s.slice(0,i).trim(),s.slice(i+1).trim()];};
+      const[k1,v1]=kv(row[6]||'');if(k1)cur.請求[k1]=v1;
+      const[k2,v2]=kv(row[8]||'');if(k2)cur.結果[k2]=v2;
     }
   }
-  if(cur) patients.push(cur);
-  return {meta,patients};
+  if(cur)patients.push(cur);
+  return{meta,patients};
 }
 
-/* ══════════════════════════════════════════
-   Excel生成（ExcelJS・色付き）
-══════════════════════════════════════════ */
-async function buildWorkbook(meta, patients, fontName, paperSize) {
-
-  /* ── カラー定義 ── */
-  const C = {
-    TITLE_BG   : '1F4E79',  // 濃紺
-    META_BG    : 'D6E4F7',  // 薄青
-    META_TXT   : '1F4E79',
-    HEAD_L_BG  : '2E75B6',  // 青（基本情報・請求ヘッダー）
-    HEAD_R_BG  : '375623',  // 緑（確認結果ヘッダー）
-    LBL_L_BG   : 'DEEAF1',  // 薄青（請求ラベル）
-    LBL_L_TXT  : '1F4E79',
-    LBL_R_BG   : 'E2EFDA',  // 薄緑（確認結果ラベル）
-    LBL_R_TXT  : '375623',
-    SEP_BG     : 'BFBFBF',  // 区切り線
-    ALT_BG     : 'EBF3FB',  // 偶数行
-    WHITE      : 'FFFFFF',
-    BORDER     : 'AAAAAA',
-    DIV_BG     : 'D9D9D9',
-  };
-
-  const wb = new ExcelJS.Workbook();
-  wb.creator = '資格確認結果変換ツール';
-  const ws = wb.addWorksheet('資格確認結果', {
-    pageSetup: {
-      paperSize: paperSize==='A3' ? 8 : 9,
-      orientation: 'landscape',
-      fitToPage: true, fitToWidth: 1, fitToHeight: 1,
-      margins: { left:0.5, right:0.5, top:0.5, bottom:0.5, header:0.3, footer:0.3 }
-    }
-  });
-
-  /* ── 列幅設定 ── */
-  const colWidths = [5.5, 9, 14, 12, 10, 5.5,  9, 14, 1.2,  9, 14,  9, 14, 1.2,  9, 14];
-  colWidths.forEach((w,i) => { ws.getColumn(i+1).width = w; });
-
-  /* ── ヘルパー関数 ── */
-  const thin  = { style:'thin',  color:{argb:'FF'+C.BORDER} };
-  const noB   = { style:'thin',  color:{argb:'FFDDDDDD'} };
-
-  function setCell(row, col, value, opts={}) {
-    const cell = ws.getCell(row, col);
-    cell.value = value;
-    cell.font = {
-      name: opts.font || fontName,
-      size: opts.size || 9,
-      bold: opts.bold || false,
-      color: { argb: 'FF'+(opts.color||'000000') }
-    };
-    cell.alignment = {
-      horizontal: opts.align || 'left',
-      vertical:   'middle',
-      wrapText:   opts.wrap || false
-    };
-    if (opts.bg) {
-      cell.fill = { type:'pattern', pattern:'solid', fgColor:{argb:'FF'+opts.bg} };
-    }
-    const b = opts.border !== false;
-    cell.border = {
-      left:   b ? thin : noB,
-      right:  b ? thin : noB,
-      top:    b ? thin : noB,
-      bottom: b ? thin : noB,
-    };
-    return cell;
-  }
-
-  function mergeSet(r, c1, c2, value, opts={}) {
-    ws.mergeCells(r, c1, r, c2);
-    setCell(r, c1, value, opts);
-    /* 結合セルの残りに罫線のみ設定 */
-    for (let c=c1+1; c<=c2; c++) {
-      ws.getCell(r,c).border = {
-        top: opts.border!==false ? thin : noB,
-        bottom: opts.border!==false ? thin : noB,
-      };
-    }
-  }
-
-  /* ── 行高さ設定 ── */
-  let r = 1;
-
-  /* ── タイトル行 ── */
-  ws.getRow(r).height = 22;
-  mergeSet(r, 1, 16, meta.title, {
-    font: fontName, size:11, bold:true, color:'FFFFFF', bg:C.TITLE_BG, align:'center'
-  });
-  r++;
-
-  /* ── メタ情報行 ── */
-  ws.getRow(r).height = 16;
-  mergeSet(r, 1,  2, meta.institution_code, { size:8, color:'333333', bg:C.META_BG, align:'left' });
-  mergeSet(r, 3, 10, meta.institution_name,  { size:9, bold:true, color:C.META_TXT, bg:C.META_BG, align:'left' });
-  mergeSet(r, 11,16, meta.issuer,            { size:8, color:'333333', bg:C.META_BG, align:'right' });
-  r++;
-
-  /* ── 患者ブロック ── */
-  const KEYS_L = ['保険者番号','審査支払機関','記号','番号','枝番','資格取得日','資格喪失日'];
-  const KEYS_R = ['レセプト種別','診療実日数','合計点数','検索番号','復活点数','復活後点数'];
-  const MAX_K  = Math.max(KEYS_L.length, KEYS_R.length);
-
-  patients.forEach((p, pi) => {
-    const dataBG = pi%2===0 ? C.ALT_BG : C.WHITE;
-
-    /* ── ヘッダー行 ── */
-    ws.getRow(r).height = 14;
-    const baseHdrOpts = { size:8, bold:true, color:'FFFFFF', align:'center' };
-    setCell(r,1,'年月',        {...baseHdrOpts, bg:C.HEAD_L_BG});
-    setCell(r,2,'保険者番号等',{...baseHdrOpts, bg:C.HEAD_L_BG});
-    setCell(r,3,'氏名',        {...baseHdrOpts, bg:C.HEAD_L_BG});
-    setCell(r,4,'カルテ番号',  {...baseHdrOpts, bg:C.HEAD_L_BG});
-    setCell(r,5,'生年月日',    {...baseHdrOpts, bg:C.HEAD_L_BG});
-    setCell(r,6,'処理区分',    {...baseHdrOpts, bg:C.HEAD_L_BG});
-    mergeSet(r, 7,11,'請求内容',         {...baseHdrOpts, bg:C.HEAD_L_BG});
-    mergeSet(r,12,16,'資格確認結果内容', {...baseHdrOpts, bg:C.HEAD_R_BG});
+async function buildA(meta,patients,font,paperSize){
+  const wb=new ExcelJS.Workbook();
+  const ws=wb.addWorksheet('資格確認結果');
+  setupPrint(ws,paperSize);
+  const CW=[5.5,9,14,12,10,5.5,9,14,1.2,9,14,9,14,1.2,9,14];
+  CW.forEach((w,i)=>ws.getColumn(i+1).width=w);
+  const KEYS_L=['保険者番号','審査支払機関','記号','番号','枝番','資格取得日','資格喪失日'];
+  const KEYS_R=['レセプト種別','診療実日数','合計点数','検索番号','復活点数','復活後点数'];
+  const MAXK=Math.max(KEYS_L.length,KEYS_R.length);
+  let r=titleRows(ws,meta,16,font,C.HEAD_BLUE);
+  patients.forEach((p,pi)=>{
+    const bg=pi%2===0?C.ALT:C.WHITE;
+    ws.getRow(r).height=13;
+    ['年月','保険者番号等','氏名','カルテ番号','生年月日','処理区分'].forEach((h,ci)=>
+      sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_BLUE,align:'center'}));
+    mc(ws,r,7,11,'請求内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_BLUE,align:'center'});
+    mc(ws,r,12,16,'資格確認結果内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});
     r++;
-
-    /* ── 詳細行 ── */
-    for (let ki=0; ki<MAX_K; ki++) {
-      ws.getRow(r).height = ki===0 ? 16 : 14;
-      const kl = ki < KEYS_L.length ? KEYS_L[ki] : '';
-      const kr = ki < KEYS_R.length ? KEYS_R[ki] : '';
-
-      /* 基本情報列（最初の行のみ値、以降は空） */
-      if (ki===0) {
-        setCell(r,1,p.年月,     {size:9, bg:dataBG, align:'center'});
-        setCell(r,2,p.保険者,   {size:9, bg:dataBG, align:'left'});
-        setCell(r,3,p.氏名,     {size:9, bg:dataBG, align:'left'});
-        setCell(r,4,p.カルテ,   {size:9, bg:dataBG, align:'center'});
-        setCell(r,5,p.生年月日, {size:9, bg:dataBG, align:'center'});
-        setCell(r,6,p.処理区分, {size:9, bg:dataBG, align:'center'});
-      } else {
+    for(let ki=0;ki<MAXK;ki++){
+      ws.getRow(r).height=ki===0?16:14;
+      const kl=ki<KEYS_L.length?KEYS_L[ki]:'';
+      const kr=ki<KEYS_R.length?KEYS_R[ki]:'';
+      if(ki===0){
+        [p.年月,p.保険者,p.氏名,p.カルテ,p.生年月日,p.処理区分].forEach((v,ci)=>
+          sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+      }else{
         for(let c=1;c<=6;c++){
-          const cell = ws.getCell(r,c);
-          cell.fill = {type:'pattern',pattern:'solid',fgColor:{argb:'FF'+dataBG}};
-          cell.border = {
-            left:  c===1 ? thin : noB,
-            right: c===6 ? thin : noB,
-            top: noB, bottom: ki===MAX_K-1 ? thin : noB
-          };
+          const cell=ws.getCell(r,c);
+          cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+bg}};
+          cell.border={left:c===1?thin():noB(),right:c===6?thin():noB(),top:noB(),bottom:ki===MAXK-1?thin():noB()};
         }
       }
-
-      /* 請求ラベル */
-      setCell(r, 7, kl, {size:8, bold:true, color:C.LBL_L_TXT, bg:C.LBL_L_BG, align:'right'});
-      /* 請求値 */
-      setCell(r, 8, p.請求[kl]||'', {size:9, bg:dataBG, align:'left'});
-      /* 区切り */
-      setCell(r, 9, '', {size:8, bg:C.SEP_BG, align:'center'});
-      /* 確認結果ラベル（左列）*/
-      setCell(r,10, kl, {size:8, bold:true, color:C.LBL_R_TXT, bg:C.LBL_R_BG, align:'right'});
-      /* 確認結果値（左列）*/
-      setCell(r,11, p.結果[kl]||'', {size:9, bg:dataBG, align:'left'});
-      /* 右側ラベル・値（請求） */
-      setCell(r,12, kr, {size:8, bold:true, color:C.LBL_L_TXT, bg:C.LBL_L_BG, align:'right'});
-      setCell(r,13, p.請求[kr]||'', {size:9, bg:dataBG, align:'left'});
-      /* 区切り */
-      setCell(r,14, '', {size:8, bg:C.SEP_BG, align:'center'});
-      /* 右側ラベル・値（確認結果）*/
-      setCell(r,15, kr, {size:8, bold:true, color:C.LBL_R_TXT, bg:C.LBL_R_BG, align:'right'});
-      setCell(r,16, p.結果[kr]||'', {size:9, bg:dataBG, align:'left'});
-
+      sc(ws,r,7,kl,{font,size:8,bold:true,color:C.LBL_BLUE_TXT,bg:C.LBL_BLUE_BG,align:'right'});
+      sc(ws,r,8,p.請求[kl]||'',{font,size:9,bg,align:'left'});
+      sc(ws,r,9,'',{font,size:8,bg:C.SEP,align:'center'});
+      sc(ws,r,10,kl,{font,size:8,bold:true,color:C.LBL_GREEN_TXT,bg:C.LBL_GREEN_BG,align:'right'});
+      sc(ws,r,11,p.結果[kl]||'',{font,size:9,bg,align:'left'});
+      sc(ws,r,12,kr,{font,size:8,bold:true,color:C.LBL_BLUE_TXT,bg:C.LBL_BLUE_BG,align:'right'});
+      sc(ws,r,13,p.請求[kr]||'',{font,size:9,bg,align:'left'});
+      sc(ws,r,14,'',{font,size:8,bg:C.SEP,align:'center'});
+      sc(ws,r,15,kr,{font,size:8,bold:true,color:C.LBL_GREEN_TXT,bg:C.LBL_GREEN_BG,align:'right'});
+      sc(ws,r,16,p.結果[kr]||'',{font,size:9,bg,align:'left'});
       r++;
     }
-
-    /* ── 患者間の区切り行 ── */
-    ws.getRow(r).height = 4;
-    for(let c=1;c<=16;c++){
-      const cell = ws.getCell(r,c);
-      cell.fill = {type:'pattern',pattern:'solid',fgColor:{argb:'FF'+C.DIV_BG}};
-      cell.border = {};
-    }
-    r++;
+    divRow(ws,r,16);r++;
   });
-
-  /* ── バッファ出力 ── */
-  const buf = await wb.xlsx.writeBuffer();
-  return buf;
+  return wb.xlsx.writeBuffer();
 }
 
-/* ══════════════════════════════════════════
+/* ══════════════════════════════════════
+   パターンB: 枝番特定結果
+══════════════════════════════════════ */
+function parseB(rows){
+  const meta={
+    title:(rows[0][1]||'').trim(),
+    institution:(rows[0][3]||'').trim()+' '+(rows[0][4]||'').trim(),
+    issuer:(rows[0][5]||'').trim()
+  };
+  const patients=rows.slice(2).filter(r=>r[0]==='3').map(r=>({
+    年月:(r[1]||'').trim(),種別:(r[2]||'').trim(),カルテ:(r[3]||'').trim(),
+    氏名:(r[4]||'').trim(),保険者:(r[5]||'').trim(),記号:(r[6]||'').trim(),
+    番号:(r[7]||'').trim(),枝番:(r[8]||'').trim()
+  }));
+  return{meta,patients};
+}
+
+async function buildB(meta,patients,font,paperSize){
+  const wb=new ExcelJS.Workbook();
+  const ws=wb.addWorksheet('枝番特定結果');
+  setupPrint(ws,paperSize);
+  const CW=[6,8,14,12,9,13,14,12,7];
+  CW.forEach((w,i)=>ws.getColumn(i+1).width=w);
+  let r=titleRows(ws,meta,9,font,C.HEAD_GREEN);
+  const HDRS=['年月','レセプト種別','氏名','カルテ番号','保険者番号','被保険者証記号','被保険者証番号','確認後枝番'];
+  ws.getRow(r).height=14;
+  mc(ws,r,1,9,'患者一覧',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});r++;
+  ws.getRow(r).height=13;
+  HDRS.forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'}));
+  r++;
+  patients.forEach((p,pi)=>{
+    ws.getRow(r).height=14;
+    const bg=pi%2===0?C.ALT:C.WHITE;
+    [p.年月,p.種別,p.氏名,p.カルテ,p.保険者,p.記号,p.番号].forEach((v,ci)=>
+      sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+    sc(ws,r,8,p.枝番,{font,size:9,bold:true,bg,align:'center',color:p.枝番==='00'?C.LBL_BLUE_TXT:C.LBL_GREEN_TXT});
+    r++;
+  });
+  return wb.xlsx.writeBuffer();
+}
+
+/* ══════════════════════════════════════
+   パターンC: 返戻・増減点（国保）
+══════════════════════════════════════ */
+function parseC(rows,fname){
+  const isHenr=fname.toUpperCase().startsWith('RIHENR');
+  const r1=rows[0];
+  const meta={
+    title:(isHenr?'返戻通知書':'増減点通知書（国保）')+' 医科 '+r1[1],
+    institution:'医療機関コード：'+(r1[4]||'')+' '+(r1[5]||''),
+    issuer:(r1[8]||r1[7]||'').trim()
+  };
+  const patients=[];let cur=null;
+  for(const row of rows.slice(2)){
+    if(!row[0])continue;
+    if(row[0]==='3'){
+      if(cur)patients.push(cur);
+      if(isHenr){
+        cur={
+          診療年月:(row[1]||'').trim(),受付番号:(row[2]||'').trim(),保険者:(row[3]||'').trim(),
+          区分:(row[4]||'').trim(),氏名:(row[6]||'').trim(),日数:(row[7]||'').trim(),
+          請求点数:(row[8]||'').trim(),一部負担金:(row[11]||'').trim(),
+          食事基準額:(row[13]||'').trim(),食事標準負担:(row[14]||'').trim(),
+          事由コード:(row[15]||'').trim(),事由:(row[16]||'').trim(),
+          カルテ:(row[17]||'').trim(),details:[]
+        };
+      }else{
+        cur={
+          受付番号:(row[3]||'').trim(),保険者:(row[7]||'').trim(),区分:(row[13]||'').trim(),
+          氏名:(row[17]||'').trim(),カルテ:(row[18]||'').trim(),
+          増減点:(row[22]||'').trim(),事由:(row[23]||'').trim(),
+          請求内容:(row[25]||'').trim(),査定後内容:(row[27]||'').trim(),
+          details:[],合計請求:'',合計査定:''
+        };
+      }
+    }else if(row[0]==='4'&&cur){
+      if(isHenr){
+        if((row[3]||'').trim())cur.details.push({保険者:row[3].trim(),日数:row[7],点数:row[8],負担:row[12]});
+      }else{
+        const txt=(row[27]||'').trim();
+        if(txt)cur.details.push(txt);
+      }
+    }else if(row[0]==='5'&&cur&&!isHenr){
+      cur.合計請求=(row[25]||'').trim();
+      cur.合計査定=(row[27]||'').trim();
+    }
+  }
+  if(cur)patients.push(cur);
+  return{meta,patients,isHenr};
+}
+
+async function buildC(meta,patients,isHenr,font,paperSize){
+  const wb=new ExcelJS.Workbook();
+  const ws=wb.addWorksheet(isHenr?'返戻通知':'増減点通知');
+  setupPrint(ws,paperSize);
+  const COLS=isHenr?16:14;
+  Array.from({length:COLS},(_,i)=>ws.getColumn(i+1).width=isHenr
+    ?[7,10,9,6,14,5,8,7,6,8,8,10,10,8,6,28][i]
+    :[8,10,14,6,8,8,8,7,28,28,28,28,8,8][i]
+  );
+  let r=titleRows(ws,meta,COLS,font,C.HEAD_AMBER);
+
+  patients.forEach((p,pi)=>{
+    const bg=pi%2===0?C.ALT:C.WHITE;
+    ws.getRow(r).height=13;
+
+    if(isHenr){
+      ['診療年月','受付番号','保険者番号','区分','氏名','日数','請求点数','一部負担金','食事基準','食事標準負担','事由コード','事由（返戻理由）','','','',''].forEach((h,ci)=>{
+        if(ci<12)sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
+      });
+      mc(ws,r,12,16,'事由（返戻理由）',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
+      r++;
+      ws.getRow(r).height=16;
+      [p.診療年月,p.受付番号,p.保険者,p.区分,p.氏名,p.日数,p.請求点数,p.一部負担金,p.食事基準額,p.食事標準負担,p.事由コード].forEach((v,ci)=>
+        sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+      mc(ws,r,12,16,p.事由,{font,size:9,bg,align:'left',wrap:true,color:C.RED_TXT,bold:true});
+      r++;
+      if(p.details.length>0){
+        p.details.forEach(d=>{
+          ws.getRow(r).height=13;
+          mc(ws,r,1,3,'　└ 公費：'+d.保険者,{font,size:8,bg,align:'left',color:'555555'});
+          sc(ws,r,4,'',{font,size:8,bg});sc(ws,r,5,'',{font,size:8,bg});
+          sc(ws,r,6,d.日数,{font,size:8,bg,align:'center'});
+          sc(ws,r,7,d.点数,{font,size:8,bg,align:'center'});
+          sc(ws,r,8,d.負担,{font,size:8,bg,align:'center'});
+          for(let c=9;c<=16;c++)sc(ws,r,c,'',{font,size:8,bg});
+          r++;
+        });
+      }
+    }else{
+      ['受付番号','保険者番号','氏名','区分','増減点数','事由','請求内容','','','査定後内容','','','合計請求','合計査定'].forEach((h,ci)=>{
+        if(![6,7,8,9,10,11].includes(ci))
+          sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
+      });
+      mc(ws,r,7,9,'請求内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
+      mc(ws,r,10,12,'査定後内容／審査理由',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});
+      r++;
+      ws.getRow(r).height=16;
+      [p.受付番号,p.保険者,p.氏名,p.区分,p.増減点,p.事由].forEach((v,ci)=>
+        sc(ws,r,ci+1,v,{font,size:9,bg,align:'center',color:ci===4&&p.増減点.startsWith('-')?C.MINUS_TXT:'000000',bold:ci===4}));
+      mc(ws,r,7,9,p.請求内容,{font,size:9,bg,align:'left',wrap:true});
+      mc(ws,r,10,12,p.査定後内容,{font,size:9,bg,align:'left',wrap:true,color:C.RED_TXT});
+      sc(ws,r,13,p.合計請求,{font,size:9,bg,align:'center'});
+      sc(ws,r,14,p.合計査定,{font,size:9,bg,align:'center',color:C.MINUS_TXT,bold:true});
+      r++;
+      if(p.details.length>0){
+        p.details.forEach(d=>{
+          ws.getRow(r).height=14;
+          for(let c=1;c<=6;c++)sc(ws,r,c,'',{font,size:8,bg,border:false});
+          mc(ws,r,7,12,'　└ '+d,{font,size:8,bg,align:'left',wrap:true,color:'555555'});
+          sc(ws,r,13,'',{font,size:8,bg});sc(ws,r,14,'',{font,size:8,bg});
+          r++;
+        });
+      }
+    }
+    divRow(ws,r,COLS);r++;
+  });
+  return wb.xlsx.writeBuffer();
+}
+
+/* ══════════════════════════════════════
+   パターンD: 増減点（社保）
+══════════════════════════════════════ */
+function parseD(rows,fname){
+  const isSast=fname.toUpperCase().startsWith('MISAST');
+  const r1=rows[0];
+  const meta={
+    title:(isSast?'増減点通知書（社保・再審査）':'増減点通知書（社保・突合）')+' 医科 '+r1[1],
+    institution:'医療機関コード：'+(r1[5]||'')+' '+(r1[6]||''),
+    issuer:(r1[7]||'').trim()
+  };
+  // type=2行が患者ヘッダー列定義、type=3が明細ヘッダー列定義
+  // type=4が患者データ、type=5が明細データ
+  const patients=[];let cur=null;
+  for(const row of rows.slice(3)){
+    if(!row[0])continue;
+    if(row[0]==='4'){
+      if(cur)patients.push(cur);
+      cur={
+        診療年月:(row[1]||'').trim(),整理番号:(row[2]||'').trim(),
+        保険者:(row[9]||'').trim(),氏名:(row[17]||'').trim(),
+        性別:(row[18]||'').trim()==='1'?'男':'女',生年月日:(row[19]||'').trim(),
+        療養給付金:(row[21]||'').trim(),件数:(row[22]||'').trim(),
+        日数:(row[23]||'').trim(),点数:(row[24]||'').trim(),
+        一部負担:(row[25]||'').trim(),details:[]
+      };
+    }else if(row[0]==='5'&&cur){
+      const 増減点=(row[7]||'').trim();
+      const 事由=(row[8]||'').trim();
+      const 内容=(row[9]||'').trim();
+      const 前点=(row[14]||'').trim();
+      const 後点=(row[16]||'').trim();
+      if(内容||増減点){
+        cur.details.push({増減点,事由,内容,前点,後点});
+      }
+    }
+  }
+  if(cur)patients.push(cur);
+  return{meta,patients};
+}
+
+async function buildD(meta,patients,font,paperSize){
+  const wb=new ExcelJS.Workbook();
+  const ws=wb.addWorksheet('増減点通知');
+  setupPrint(ws,paperSize);
+  const CW=[7,14,9,6,6,6,7,7,6,28,5,5,5,5];
+  CW.forEach((w,i)=>ws.getColumn(i+1).width=w);
+  const COLS=14;
+  let r=titleRows(ws,meta,COLS,font,C.HEAD_PURPLE);
+
+  patients.forEach((p,pi)=>{
+    const bg=pi%2===0?C.ALT:C.WHITE;
+    ws.getRow(r).height=13;
+    ['診療年月','整理番号','保険者番号','氏名','性別','生年月日','療養給付金','件数','日数','増減点内容','前点数','後点数','増減点数','事由'].forEach((h,ci)=>
+      sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_PURPLE,align:'center'}));
+    r++;
+    ws.getRow(r).height=16;
+    [p.診療年月,p.整理番号,p.保険者,p.氏名,p.性別,p.生年月日,p.療養給付金,p.件数,p.日数].forEach((v,ci)=>
+      sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+    sc(ws,r,10,'（明細は下記参照）',{font,size:8,bg,align:'left',color:'888888'});
+    for(let c=11;c<=14;c++)sc(ws,r,c,'',{font,size:9,bg});
+    r++;
+    if(p.details.length>0){
+      p.details.forEach(d=>{
+        if(!d.内容&&!d.増減点)return;
+        ws.getRow(r).height=14;
+        for(let c=1;c<=9;c++){
+          const cell=ws.getCell(r,c);
+          cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+bg}};
+          cell.border={left:c===1?thin():noB(),right:noB(),top:noB(),bottom:noB()};
+        }
+        mc(ws,r,10,10,d.内容,{font,size:8,bg,align:'left',wrap:true,
+          color:d.事由==='A'?'A32D2D':d.事由==='B'?'854F0B':d.事由==='C'?'4527A0':'000000'});
+        sc(ws,r,11,d.前点,{font,size:8,bg,align:'center'});
+        sc(ws,r,12,d.後点,{font,size:8,bg,align:'center'});
+        sc(ws,r,13,d.増減点,{font,size:9,bold:!!d.増減点,bg,align:'center',
+          color:d.増減点.startsWith('-')?C.MINUS_TXT:d.増減点.startsWith('+')?'375623':'000000'});
+        sc(ws,r,14,d.事由,{font,size:9,bold:true,bg,align:'center',
+          color:d.事由==='A'?'A32D2D':d.事由==='B'?'854F0B':d.事由==='C'?'4527A0':'000000'});
+        r++;
+      });
+    }
+    divRow(ws,r,COLS);r++;
+  });
+  return wb.xlsx.writeBuffer();
+}
+
+/* ══════════════════════════════════════
    変換実行
-══════════════════════════════════════════ */
-convertBtn.addEventListener('click', async () => {
-  if(!files.length) return;
+══════════════════════════════════════ */
+convertBtn.addEventListener('click',async()=>{
+  if(!files.length)return;
   convertBtn.disabled=true;
-  progressWrap.style.display='block';
+  progWrap.style.display='block';
   resultsEl.innerHTML='';
-  const fontName  = document.getElementById('fontName').value;
-  const paperSize = document.getElementById('paperSize').value;
+  const font=document.getElementById('fontName').value;
+  const paperSize=document.getElementById('paperSize').value;
 
   for(let i=0;i<files.length;i++){
     const f=files[i];
-    progressFill.style.width = Math.round(i/files.length*100)+'%';
-    progressMsg.textContent  = `${f.name} を変換中... (${i+1}/${files.length})`;
-
+    progFill.style.width=Math.round(i/files.length*100)+'%';
+    progMsg.textContent=`${f.name} を変換中... (${i+1}/${files.length})`;
     const div=document.createElement('div');
     try{
-      const text = await readShiftJIS(f);
-      const rows = parseCSV(text);
-      const {meta,patients} = parseData(rows);
-      const buf  = await buildWorkbook(meta, patients, fontName, paperSize);
-      const outName = f.name.replace(/\.csv$/i,'.xlsx');
-      const blob = new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
-      const url  = URL.createObjectURL(blob);
-
+      const text=await readSJIS(f);
+      const rows=parseCSV(text);
+      const pat=detectPattern(f.name);
+      let buf,label;
+      if(pat==='A'){
+        const{meta,patients}=parseA(rows);
+        buf=await buildA(meta,patients,font,paperSize);
+        label=`${meta.title} · ${patients.length}件`;
+      }else if(pat==='B'){
+        const{meta,patients}=parseB(rows);
+        buf=await buildB(meta,patients,font,paperSize);
+        label=`${meta.title} · ${patients.length}件`;
+      }else if(pat==='C'){
+        const{meta,patients,isHenr}=parseC(rows,f.name);
+        buf=await buildC(meta,patients,isHenr,font,paperSize);
+        label=`${meta.title} · ${patients.length}件`;
+      }else if(pat==='D'){
+        const{meta,patients}=parseD(rows,f.name);
+        buf=await buildD(meta,patients,font,paperSize);
+        label=`${meta.title} · ${patients.length}件`;
+      }else{
+        throw new Error('対応していないファイル形式です（ファイル名を確認してください）');
+      }
+      const outName=f.name.replace(/\.csv$/i,'.xlsx');
+      const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+      const url=URL.createObjectURL(blob);
       div.className='result-item ok';
-      div.innerHTML=`
-        <span>✅</span>
-        <div class="result-info">
-          <div class="result-name">${outName}</div>
-          <div class="result-detail">${meta.title} &nbsp;·&nbsp; ${patients.length} 件</div>
-        </div>
-        <span class="badge badge-ok">完了</span>
-        <a class="btn-dl" href="${url}" download="${outName}">💾 ダウンロード</a>`;
+      div.innerHTML=`<span>✅</span><div class="result-info"><div class="result-name">${outName}</div><div class="result-detail">${label}</div></div><span class="rbadge rbadge-ok">完了</span><a class="btn-dl" href="${url}" download="${outName}">💾 ダウンロード</a>`;
     }catch(err){
       div.className='result-item err';
-      div.innerHTML=`
-        <span>❌</span>
-        <div class="result-info">
-          <div class="result-name">${f.name}</div>
-          <div class="result-detail">${err.message}</div>
-        </div>
-        <span class="badge badge-err">エラー</span>`;
+      div.innerHTML=`<span>❌</span><div class="result-info"><div class="result-name">${f.name}</div><div class="result-detail">${err.message}</div></div><span class="rbadge rbadge-err">エラー</span>`;
     }
     resultsEl.appendChild(div);
   }
-
-  progressFill.style.width='100%';
-  progressMsg.textContent='すべて完了！';
-  setTimeout(()=>{ progressWrap.style.display='none'; },2000);
+  progFill.style.width='100%';
+  progMsg.textContent='すべて完了！';
+  setTimeout(()=>{progWrap.style.display='none';},2000);
   convertBtn.disabled=false;
 });
 </script>
