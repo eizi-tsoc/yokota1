@@ -12,7 +12,7 @@ header{background:#1F4E79;color:#fff;padding:14px 28px;display:flex;align-items:
 header svg{width:26px;height:26px;flex-shrink:0}
 header h1{font-size:16px;font-weight:700}
 header p{font-size:11px;opacity:.75;margin-top:2px}
-main{max-width:860px;margin:28px auto;padding:0 16px 60px}
+main{max-width:900px;margin:28px auto;padding:0 16px 60px}
 .card{background:#fff;border-radius:12px;border:1px solid #dce6f0;padding:22px 26px;margin-bottom:18px}
 .card-title{font-size:11px;font-weight:700;color:#1F4E79;text-transform:uppercase;letter-spacing:.07em;margin-bottom:14px;display:flex;align-items:center;gap:7px}
 .card-title::before{content:'';display:inline-block;width:4px;height:15px;background:#2E75B6;border-radius:2px}
@@ -29,6 +29,9 @@ main{max-width:860px;margin:28px auto;padding:0 16px 60px}
 .badge-B{background:#E2EFDA;color:#375623}
 .badge-C{background:#FFF2CC;color:#7F6000}
 .badge-D{background:#EDE7F6;color:#4527A0}
+.badge-E{background:#FCE4EC;color:#880E4F}
+.badge-F{background:#E8F5E9;color:#1B5E20}
+.badge-G{background:#FFF3E0;color:#E65100}
 .badge-?{background:#F0F0F0;color:#666}
 .file-size{color:#8099aa;font-size:11px;white-space:nowrap}
 .file-remove{background:none;border:none;cursor:pointer;color:#aaa;font-size:17px;line-height:1;padding:2px 4px;border-radius:4px}
@@ -55,10 +58,10 @@ main{max-width:860px;margin:28px auto;padding:0 16px 60px}
 .rbadge-err{background:#fad8d8;color:#9b1c1c}
 .btn-dl{display:flex;align-items:center;gap:4px;padding:6px 13px;font-size:11px;font-weight:700;border:1px solid #93b8d8;border-radius:7px;background:#fff;color:#1F4E79;cursor:pointer;text-decoration:none;white-space:nowrap;font-family:inherit;transition:background .15s}
 .btn-dl:hover{background:#e8f2fb}
-.pattern-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.pattern-legend{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px}
+.pattern-legend2{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .pl-item{padding:8px 10px;border-radius:7px;border:1px solid #dce6f0;font-size:11px}
-.pl-name{font-weight:700;margin-bottom:2px}
-.pl-files{color:#6a8a9a;font-size:10px}
+.pl-files{color:#6a8a9a;font-size:10px;margin-top:4px}
 .notice{margin-top:14px;padding:9px 13px;background:#fff8e6;border:1px solid #f5d07a;border-radius:8px;font-size:11px;color:#7a5800}
 footer{text-align:center;font-size:11px;color:#8099aa;padding:18px;border-top:1px solid #dce6f0;margin-top:18px}
 </style>
@@ -68,23 +71,26 @@ footer{text-align:center;font-size:11px;color:#8099aa;padding:18px;border-top:1p
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
     <polyline points="14 2 14 8 20 8"/>
-    <line x1="8" y1="13" x2="16" y2="13"/>
-    <line x1="8" y1="17" x2="16" y2="17"/>
+    <line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/>
   </svg>
   <div>
     <h1>診療報酬 CSV→Excel 変換ツール</h1>
-    <p>全7種類のCSVファイルを色付き・印刷対応Excelに自動変換</p>
+    <p>全10種類のCSVファイルを色付き・印刷対応Excelに自動変換</p>
   </div>
 </header>
-
 <main>
   <div class="card">
     <div class="card-title">対応ファイル一覧</div>
     <div class="pattern-legend">
-      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-A">パターン A</span></div><div class="pl-files" style="margin-top:5px">RIskkg・RIskks<br>資格確認結果連絡書</div></div>
-      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-B">パターン B</span></div><div class="pl-files" style="margin-top:5px">RIedbn<br>枝番特定結果</div></div>
-      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-C">パターン C</span></div><div class="pl-files" style="margin-top:5px">RIhenr・RIzogn<br>返戻・増減点（国保）</div></div>
-      <div class="pl-item"><div class="pl-name"><span class="file-badge badge-D">パターン D</span></div><div class="pl-files" style="margin-top:5px">MIsast・MIshst<br>増減点（社保）</div></div>
+      <div class="pl-item"><span class="file-badge badge-A">A</span><div class="pl-files">RIskkg / RIskks<br>資格確認結果連絡書</div></div>
+      <div class="pl-item"><span class="file-badge badge-B">B</span><div class="pl-files">RIedbn<br>枝番特定結果</div></div>
+      <div class="pl-item"><span class="file-badge badge-C">C</span><div class="pl-files">RIhenr / RIzogn<br>返戻・増減点（国保）</div></div>
+      <div class="pl-item"><span class="file-badge badge-D">D</span><div class="pl-files">MIsast / MIshst<br>増減点（社保）</div></div>
+    </div>
+    <div class="pattern-legend2">
+      <div class="pl-item"><span class="file-badge badge-E">E</span><div class="pl-files">MItgft<br>支払通知書</div></div>
+      <div class="pl-item"><span class="file-badge badge-F">F</span><div class="pl-files">MIfggk<br>分科給付金計算書</div></div>
+      <div class="pl-item"><span class="file-badge badge-G">G</span><div class="pl-files">RIfmei<br>診療報酬明細書一覧（全列）</div></div>
     </div>
     <div class="notice">🔒 すべての処理はブラウザ内のみで完結します。CSVの内容は外部サーバーへ一切送信されません。</div>
   </div>
@@ -94,7 +100,7 @@ footer{text-align:center;font-size:11px;color:#8099aa;padding:18px;border-top:1p
     <div class="drop-zone" id="dropZone">
       <input type="file" id="fileInput" accept=".csv" multiple>
       <p>CSVファイルをここにドラッグ＆ドロップ</p>
-      <span>クリックして選択も可 ・ 複数ファイル同時対応 ・ 種類が混在していてもOK</span>
+      <span>クリックして選択も可 ・ 複数ファイル同時対応 ・ 種類混在OK</span>
     </div>
     <div class="file-list" id="fileList"></div>
   </div>
@@ -130,76 +136,61 @@ footer{text-align:center;font-size:11px;color:#8099aa;padding:18px;border-top:1p
 <footer>診療報酬 CSV→Excel 変換ツール ／ ブラウザ内処理・データ送信なし</footer>
 
 <script>
-/* ══════════════════════════════════════
-   定数・カラー
-══════════════════════════════════════ */
+/* ══════════════ カラー定数 ══════════════ */
 const C={
-  TITLE_BG:'1F4E79', META_BG:'D6E4F7', META_TXT:'1F4E79',
-  HEAD_BLUE:'2E75B6', HEAD_GREEN:'375623', HEAD_AMBER:'7F6000', HEAD_PURPLE:'4527A0',
-  LBL_BLUE_BG:'DEEAF1', LBL_BLUE_TXT:'1F4E79',
-  LBL_GREEN_BG:'E2EFDA', LBL_GREEN_TXT:'375623',
-  LBL_RED_BG:'FCE4EC',  LBL_RED_TXT:'880E4F',
-  ALT:'EBF3FB', WHITE:'FFFFFF', SEP:'BFBFBF', DIV:'D9D9D9',
-  RED_TXT:'9B0000', MINUS_TXT:'833233',
+  TITLE_BG:'1F4E79',META_BG:'D6E4F7',META_TXT:'1F4E79',
+  HEAD_BLUE:'2E75B6',HEAD_GREEN:'375623',HEAD_AMBER:'7F6000',
+  HEAD_PURPLE:'4527A0',HEAD_PINK:'880E4F',HEAD_TEAL:'004D40',HEAD_ORANGE:'BF360C',
+  LBL_BLUE_BG:'DEEAF1',LBL_BLUE_TXT:'1F4E79',
+  LBL_GREEN_BG:'E2EFDA',LBL_GREEN_TXT:'375623',
+  ALT:'EBF3FB',WHITE:'FFFFFF',SEP:'BFBFBF',DIV:'D9D9D9',
+  RED_TXT:'9B0000',MINUS_TXT:'833233',
 };
-const BORDER_COLOR='AAAAAA';
+const BC='AAAAAA';
 
-/* パターン判定 */
+/* ══════════════ パターン判定 ══════════════ */
 function detectPattern(fname){
   const p=fname.toUpperCase();
-  if(p.startsWith('RISKKG')||p.startsWith('RISKKS')) return 'A';
-  if(p.startsWith('RIEDBN')) return 'B';
-  if(p.startsWith('RIHENR')||p.startsWith('RIZOGN')) return 'C';
-  if(p.startsWith('MISAST')||p.startsWith('MISHST')) return 'D';
-  return '?';
+  if(p.startsWith('RISKKG')||p.startsWith('RISKKS'))return'A';
+  if(p.startsWith('RIEDBN'))return'B';
+  if(p.startsWith('RIHENR')||p.startsWith('RIZOGN'))return'C';
+  if(p.startsWith('MISAST')||p.startsWith('MISHST'))return'D';
+  if(p.startsWith('MITGFT'))return'E';
+  if(p.startsWith('MIFGGK'))return'F';
+  if(p.startsWith('RIFMEI'))return'G';
+  return'?';
 }
-const BADGE_CLASS={'A':'badge-A','B':'badge-B','C':'badge-C','D':'badge-D','?':'badge-?'};
-const BADGE_LABEL={'A':'パターン A','B':'パターン B','C':'パターン C','D':'パターン D','?':'不明'};
+const BADGE={'A':'badge-A','B':'badge-B','C':'badge-C','D':'badge-D','E':'badge-E','F':'badge-F','G':'badge-G','?':'badge-?'};
+const BLABEL={'A':'パターン A','B':'パターン B','C':'パターン C','D':'パターン D','E':'パターン E','F':'パターン F','G':'パターン G','?':'不明'};
 
-/* ══════════════════════════════════════
-   UI
-══════════════════════════════════════ */
-const dropZone=document.getElementById('dropZone');
-const fileInput=document.getElementById('fileInput');
-const fileListEl=document.getElementById('fileList');
-const convertBtn=document.getElementById('convertBtn');
-const progWrap=document.getElementById('progWrap');
-const progFill=document.getElementById('progFill');
-const progMsg=document.getElementById('progMsg');
-const resultsEl=document.getElementById('results');
+/* ══════════════ UI ══════════════ */
+const dropZone=document.getElementById('dropZone'),fileInput=document.getElementById('fileInput'),
+  fileListEl=document.getElementById('fileList'),convertBtn=document.getElementById('convertBtn'),
+  progWrap=document.getElementById('progWrap'),progFill=document.getElementById('progFill'),
+  progMsg=document.getElementById('progMsg'),resultsEl=document.getElementById('results');
 let files=[];
-
 dropZone.addEventListener('dragover',e=>{e.preventDefault();dropZone.classList.add('over')});
 dropZone.addEventListener('dragleave',()=>dropZone.classList.remove('over'));
-dropZone.addEventListener('drop',e=>{
-  e.preventDefault();dropZone.classList.remove('over');
-  addFiles([...e.dataTransfer.files].filter(f=>f.name.toLowerCase().endsWith('.csv')));
-});
+dropZone.addEventListener('drop',e=>{e.preventDefault();dropZone.classList.remove('over');addFiles([...e.dataTransfer.files].filter(f=>f.name.toLowerCase().endsWith('.csv')));});
 fileInput.addEventListener('change',()=>{addFiles([...fileInput.files]);fileInput.value='';});
-
 function addFiles(nf){nf.forEach(f=>{if(!files.find(x=>x.name===f.name))files.push(f);});renderFileList();}
 function renderFileList(){
   fileListEl.innerHTML='';
   files.forEach((f,i)=>{
     const pat=detectPattern(f.name);
     const d=document.createElement('div');d.className='file-item';
-    d.innerHTML=`<span>📄</span><span class="file-name">${f.name}</span><span class="file-badge ${BADGE_CLASS[pat]}">${BADGE_LABEL[pat]}</span><span class="file-size">${(f.size/1024).toFixed(1)}KB</span><button class="file-remove" data-i="${i}">✕</button>`;
+    d.innerHTML=`<span>📄</span><span class="file-name">${f.name}</span><span class="file-badge ${BADGE[pat]}">${BLABEL[pat]}</span><span class="file-size">${(f.size/1024).toFixed(1)}KB</span><button class="file-remove" data-i="${i}">✕</button>`;
     fileListEl.appendChild(d);
   });
   fileListEl.querySelectorAll('.file-remove').forEach(b=>b.addEventListener('click',()=>{files.splice(+b.dataset.i,1);renderFileList();}));
   convertBtn.disabled=files.length===0;
 }
 
-/* ══════════════════════════════════════
-   CSV読み込み
-══════════════════════════════════════ */
+/* ══════════════ CSV読み込み ══════════════ */
 function readSJIS(file){
   return new Promise((res,rej)=>{
     const r=new FileReader();
-    r.onload=e=>{
-      try{res(new TextDecoder('shift-jis').decode(new Uint8Array(e.target.result)));}
-      catch{res(new TextDecoder('utf-8').decode(new Uint8Array(e.target.result)));}
-    };
+    r.onload=e=>{try{res(new TextDecoder('shift-jis').decode(new Uint8Array(e.target.result)));}catch{res(new TextDecoder('utf-8').decode(new Uint8Array(e.target.result)));}};
     r.onerror=rej;r.readAsArrayBuffer(file);
   });
 }
@@ -211,384 +202,408 @@ function parseCSV(text){
   });
 }
 
-/* ══════════════════════════════════════
-   ExcelJS ヘルパー
-══════════════════════════════════════ */
-function thin(c=BORDER_COLOR){return{style:'thin',color:{argb:'FF'+c}};}
+/* ══════════════ ExcelJS ヘルパー ══════════════ */
+function thinB(c=BC){return{style:'thin',color:{argb:'FF'+c}};}
 function noB(){return{style:'thin',color:{argb:'FFEEEEEE'}};}
-
-function sc(ws,r,c,val,opts={}){
+function sc(ws,r,c,val,o={}){
   const cell=ws.getCell(r,c);
   cell.value=val;
-  cell.font={name:opts.font||'Meiryo',size:opts.size||9,bold:opts.bold||false,color:{argb:'FF'+(opts.color||'000000')}};
-  cell.alignment={horizontal:opts.align||'left',vertical:'middle',wrapText:opts.wrap||false};
-  if(opts.bg) cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+opts.bg}};
-  const b=opts.border!==false;
-  cell.border={left:b?thin():noB(),right:b?thin():noB(),top:b?thin():noB(),bottom:b?thin():noB()};
+  cell.font={name:o.font||'Meiryo',size:o.size||9,bold:o.bold||false,color:{argb:'FF'+(o.color||'000000')}};
+  cell.alignment={horizontal:o.align||'left',vertical:'middle',wrapText:o.wrap||false};
+  if(o.bg)cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+o.bg}};
+  const b=o.border!==false;
+  cell.border={left:b?thinB():noB(),right:b?thinB():noB(),top:b?thinB():noB(),bottom:b?thinB():noB()};
   return cell;
 }
-function mc(ws,r,c1,c2,val,opts={}){
-  ws.mergeCells(r,c1,r,c2);
-  sc(ws,r,c1,val,opts);
-  for(let c=c1+1;c<=c2;c++){
-    const cell=ws.getCell(r,c);
-    const b=opts.border!==false;
-    cell.border={top:b?thin():noB(),bottom:b?thin():noB()};
-  }
+function mc(ws,r,c1,c2,val,o={}){
+  ws.mergeCells(r,c1,r,c2);sc(ws,r,c1,val,o);
+  for(let c=c1+1;c<=c2;c++){const cell=ws.getCell(r,c);const b=o.border!==false;cell.border={top:b?thinB():noB(),bottom:b?thinB():noB()};}
 }
-function titleRows(ws,meta,totalCols,font,headColor){
+function titleRows(ws,meta,totalCols,font){
   ws.getRow(1).height=20;
   mc(ws,1,1,totalCols,meta.title,{font,size:11,bold:true,color:'FFFFFF',bg:C.TITLE_BG,align:'center'});
   ws.getRow(2).height=15;
-  mc(ws,2,1,Math.floor(totalCols/2),meta.institution,{font,size:8,bold:true,color:C.META_TXT,bg:C.META_BG,align:'left'});
-  mc(ws,2,Math.floor(totalCols/2)+1,totalCols,meta.issuer,{font,size:8,color:'333333',bg:C.META_BG,align:'right'});
+  const mid=Math.floor(totalCols*0.6);
+  mc(ws,2,1,mid,meta.institution,{font,size:8,bold:true,color:C.META_TXT,bg:C.META_BG,align:'left'});
+  mc(ws,2,mid+1,totalCols,meta.issuer,{font,size:8,color:'333333',bg:C.META_BG,align:'right'});
   return 3;
+}
+function setupPrint(ws,paperSize){
+  ws.pageSetup={paperSize:paperSize==='A3'?8:9,orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0};
+  ws.pageSetup.margins={left:.4,right:.4,top:.4,bottom:.4,header:.2,footer:.2};
+  ws.views=[{showGridLines:false}];
 }
 function divRow(ws,r,totalCols){
   ws.getRow(r).height=4;
-  for(let c=1;c<=totalCols;c++){
-    const cell=ws.getCell(r,c);
-    cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+C.DIV}};
-    cell.border={};
-  }
-}
-function setupPrint(ws,paperSize){
-  ws.pageSetup={paperSize:paperSize==='A3'?8:9,orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:1};
-  ws.pageSetup.margins={left:.5,right:.5,top:.5,bottom:.5,header:.3,footer:.3};
-  ws.views=[{showGridLines:false}];
+  for(let c=1;c<=totalCols;c++){const cell=ws.getCell(r,c);cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+C.DIV}};cell.border={};}
 }
 
-/* ══════════════════════════════════════
-   パターンA: 資格確認結果連絡書
-══════════════════════════════════════ */
+/* ══════════════ パターンA ══════════════ */
 function parseA(rows){
-  const meta={
-    title:(rows[0][1]||'').trim(),
-    institution:(rows[0][3]||'').trim()+' '+(rows[0][4]||'').trim(),
-    issuer:(rows[0][5]||'').trim()
-  };
+  const meta={title:(rows[0][1]||'').trim(),institution:(rows[0][3]||'').trim()+' '+(rows[0][4]||'').trim(),issuer:(rows[0][5]||'').trim()};
   const patients=[];let cur=null;
   for(const row of rows.slice(2)){
     if(!row[0])continue;
-    if(row[0]==='3'){
-      if(cur)patients.push(cur);
-      cur={年月:(row[1]||'').trim(),保険者:(row[2]||'').trim(),氏名:(row[3]||'').trim(),
-           カルテ:'',生年月日:(row[4]||'').trim(),処理区分:(row[5]||'').trim(),請求:{},結果:{}};
-    }else if(row[0]==='4'&&cur){
-      if((row[3]||'').trim())cur.カルテ=row[3].trim();
-      const kv=s=>{const i=s.indexOf('：');return i<0?[null,null]:[s.slice(0,i).trim(),s.slice(i+1).trim()];};
-      const[k1,v1]=kv(row[6]||'');if(k1)cur.請求[k1]=v1;
-      const[k2,v2]=kv(row[8]||'');if(k2)cur.結果[k2]=v2;
-    }
+    if(row[0]==='3'){if(cur)patients.push(cur);cur={年月:(row[1]||'').trim(),保険者:(row[2]||'').trim(),氏名:(row[3]||'').trim(),カルテ:'',生年月日:(row[4]||'').trim(),処理区分:(row[5]||'').trim(),請求:{},結果:{}};}
+    else if(row[0]==='4'&&cur){if((row[3]||'').trim())cur.カルテ=row[3].trim();const kv=s=>{const i=s.indexOf('：');return i<0?[null,null]:[s.slice(0,i).trim(),s.slice(i+1).trim()];};const[k1,v1]=kv(row[6]||'');if(k1)cur.請求[k1]=v1;const[k2,v2]=kv(row[8]||'');if(k2)cur.結果[k2]=v2;}
   }
-  if(cur)patients.push(cur);
-  return{meta,patients};
+  if(cur)patients.push(cur);return{meta,patients};
 }
-
 async function buildA(meta,patients,font,paperSize){
-  const wb=new ExcelJS.Workbook();
-  const ws=wb.addWorksheet('資格確認結果');
-  setupPrint(ws,paperSize);
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet('資格確認結果');setupPrint(ws,paperSize);
   const CW=[5.5,9,14,12,10,5.5,9,14,1.2,9,14,9,14,1.2,9,14];
   CW.forEach((w,i)=>ws.getColumn(i+1).width=w);
-  const KEYS_L=['保険者番号','審査支払機関','記号','番号','枝番','資格取得日','資格喪失日'];
-  const KEYS_R=['レセプト種別','診療実日数','合計点数','検索番号','復活点数','復活後点数'];
-  const MAXK=Math.max(KEYS_L.length,KEYS_R.length);
-  let r=titleRows(ws,meta,16,font,C.HEAD_BLUE);
+  const KL=['保険者番号','審査支払機関','記号','番号','枝番','資格取得日','資格喪失日'];
+  const KR=['レセプト種別','診療実日数','合計点数','検索番号','復活点数','復活後点数'];
+  const MK=Math.max(KL.length,KR.length);
+  let r=titleRows(ws,meta,16,font);
   patients.forEach((p,pi)=>{
     const bg=pi%2===0?C.ALT:C.WHITE;
     ws.getRow(r).height=13;
-    ['年月','保険者番号等','氏名','カルテ番号','生年月日','処理区分'].forEach((h,ci)=>
-      sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_BLUE,align:'center'}));
+    ['年月','保険者番号等','氏名','カルテ番号','生年月日','処理区分'].forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_BLUE,align:'center'}));
     mc(ws,r,7,11,'請求内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_BLUE,align:'center'});
-    mc(ws,r,12,16,'資格確認結果内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});
-    r++;
-    for(let ki=0;ki<MAXK;ki++){
+    mc(ws,r,12,16,'資格確認結果内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});r++;
+    for(let ki=0;ki<MK;ki++){
       ws.getRow(r).height=ki===0?16:14;
-      const kl=ki<KEYS_L.length?KEYS_L[ki]:'';
-      const kr=ki<KEYS_R.length?KEYS_R[ki]:'';
-      if(ki===0){
-        [p.年月,p.保険者,p.氏名,p.カルテ,p.生年月日,p.処理区分].forEach((v,ci)=>
-          sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
-      }else{
-        for(let c=1;c<=6;c++){
-          const cell=ws.getCell(r,c);
-          cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+bg}};
-          cell.border={left:c===1?thin():noB(),right:c===6?thin():noB(),top:noB(),bottom:ki===MAXK-1?thin():noB()};
-        }
-      }
+      const kl=ki<KL.length?KL[ki]:'';const kr=ki<KR.length?KR[ki]:'';
+      if(ki===0){[p.年月,p.保険者,p.氏名,p.カルテ,p.生年月日,p.処理区分].forEach((v,ci)=>sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));}
+      else{for(let c=1;c<=6;c++){const cell=ws.getCell(r,c);cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+bg}};cell.border={left:c===1?thinB():noB(),right:c===6?thinB():noB(),top:noB(),bottom:ki===MK-1?thinB():noB()};}}
       sc(ws,r,7,kl,{font,size:8,bold:true,color:C.LBL_BLUE_TXT,bg:C.LBL_BLUE_BG,align:'right'});
-      sc(ws,r,8,p.請求[kl]||'',{font,size:9,bg,align:'left'});
-      sc(ws,r,9,'',{font,size:8,bg:C.SEP,align:'center'});
+      sc(ws,r,8,p.請求[kl]||'',{font,size:9,bg});
+      sc(ws,r,9,'',{font,size:8,bg:C.SEP});
       sc(ws,r,10,kl,{font,size:8,bold:true,color:C.LBL_GREEN_TXT,bg:C.LBL_GREEN_BG,align:'right'});
-      sc(ws,r,11,p.結果[kl]||'',{font,size:9,bg,align:'left'});
+      sc(ws,r,11,p.結果[kl]||'',{font,size:9,bg});
       sc(ws,r,12,kr,{font,size:8,bold:true,color:C.LBL_BLUE_TXT,bg:C.LBL_BLUE_BG,align:'right'});
-      sc(ws,r,13,p.請求[kr]||'',{font,size:9,bg,align:'left'});
-      sc(ws,r,14,'',{font,size:8,bg:C.SEP,align:'center'});
+      sc(ws,r,13,p.請求[kr]||'',{font,size:9,bg});
+      sc(ws,r,14,'',{font,size:8,bg:C.SEP});
       sc(ws,r,15,kr,{font,size:8,bold:true,color:C.LBL_GREEN_TXT,bg:C.LBL_GREEN_BG,align:'right'});
-      sc(ws,r,16,p.結果[kr]||'',{font,size:9,bg,align:'left'});
-      r++;
+      sc(ws,r,16,p.結果[kr]||'',{font,size:9,bg});r++;
     }
     divRow(ws,r,16);r++;
   });
   return wb.xlsx.writeBuffer();
 }
 
-/* ══════════════════════════════════════
-   パターンB: 枝番特定結果
-══════════════════════════════════════ */
+/* ══════════════ パターンB ══════════════ */
 function parseB(rows){
-  const meta={
-    title:(rows[0][1]||'').trim(),
-    institution:(rows[0][3]||'').trim()+' '+(rows[0][4]||'').trim(),
-    issuer:(rows[0][5]||'').trim()
-  };
-  const patients=rows.slice(2).filter(r=>r[0]==='3').map(r=>({
-    年月:(r[1]||'').trim(),種別:(r[2]||'').trim(),カルテ:(r[3]||'').trim(),
-    氏名:(r[4]||'').trim(),保険者:(r[5]||'').trim(),記号:(r[6]||'').trim(),
-    番号:(r[7]||'').trim(),枝番:(r[8]||'').trim()
-  }));
+  const meta={title:(rows[0][1]||'').trim(),institution:(rows[0][3]||'').trim()+' '+(rows[0][4]||'').trim(),issuer:(rows[0][5]||'').trim()};
+  const patients=rows.slice(2).filter(r=>r[0]==='3').map(r=>({年月:(r[1]||'').trim(),種別:(r[2]||'').trim(),カルテ:(r[3]||'').trim(),氏名:(r[4]||'').trim(),保険者:(r[5]||'').trim(),記号:(r[6]||'').trim(),番号:(r[7]||'').trim(),枝番:(r[8]||'').trim()}));
   return{meta,patients};
 }
-
 async function buildB(meta,patients,font,paperSize){
-  const wb=new ExcelJS.Workbook();
-  const ws=wb.addWorksheet('枝番特定結果');
-  setupPrint(ws,paperSize);
-  const CW=[6,8,14,12,9,13,14,12,7];
-  CW.forEach((w,i)=>ws.getColumn(i+1).width=w);
-  let r=titleRows(ws,meta,9,font,C.HEAD_GREEN);
-  const HDRS=['年月','レセプト種別','氏名','カルテ番号','保険者番号','被保険者証記号','被保険者証番号','確認後枝番'];
-  ws.getRow(r).height=14;
-  mc(ws,r,1,9,'患者一覧',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});r++;
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet('枝番特定結果');setupPrint(ws,paperSize);
+  [6,8,14,12,9,13,14,12,7].forEach((w,i)=>ws.getColumn(i+1).width=w);
+  let r=titleRows(ws,meta,9,font);
   ws.getRow(r).height=13;
-  HDRS.forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'}));
-  r++;
+  ['年月','レセプト種別','氏名','カルテ番号','保険者番号','被保険者証記号','被保険者証番号','確認後枝番'].forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'}));r++;
   patients.forEach((p,pi)=>{
-    ws.getRow(r).height=14;
-    const bg=pi%2===0?C.ALT:C.WHITE;
-    [p.年月,p.種別,p.氏名,p.カルテ,p.保険者,p.記号,p.番号].forEach((v,ci)=>
-      sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
-    sc(ws,r,8,p.枝番,{font,size:9,bold:true,bg,align:'center',color:p.枝番==='00'?C.LBL_BLUE_TXT:C.LBL_GREEN_TXT});
-    r++;
+    ws.getRow(r).height=14;const bg=pi%2===0?C.ALT:C.WHITE;
+    [p.年月,p.種別,p.氏名,p.カルテ,p.保険者,p.記号,p.番号].forEach((v,ci)=>sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+    sc(ws,r,8,p.枝番,{font,size:9,bold:true,bg,align:'center',color:p.枝番==='00'?C.LBL_BLUE_TXT:C.LBL_GREEN_TXT});r++;
   });
   return wb.xlsx.writeBuffer();
 }
 
-/* ══════════════════════════════════════
-   パターンC: 返戻・増減点（国保）
-══════════════════════════════════════ */
+/* ══════════════ パターンC ══════════════ */
 function parseC(rows,fname){
   const isHenr=fname.toUpperCase().startsWith('RIHENR');
   const r1=rows[0];
-  const meta={
-    title:(isHenr?'返戻通知書':'増減点通知書（国保）')+' 医科 '+r1[1],
-    institution:'医療機関コード：'+(r1[4]||'')+' '+(r1[5]||''),
-    issuer:(r1[8]||r1[7]||'').trim()
-  };
+  const meta={title:(isHenr?'返戻通知書':'増減点通知書（国保）')+' 医科 '+r1[1],institution:'医療機関コード：'+(r1[4]||'')+' '+(r1[5]||''),issuer:(r1[8]||r1[7]||'').trim()};
   const patients=[];let cur=null;
   for(const row of rows.slice(2)){
     if(!row[0])continue;
     if(row[0]==='3'){
       if(cur)patients.push(cur);
-      if(isHenr){
-        cur={
-          診療年月:(row[1]||'').trim(),受付番号:(row[2]||'').trim(),保険者:(row[3]||'').trim(),
-          区分:(row[4]||'').trim(),氏名:(row[6]||'').trim(),日数:(row[7]||'').trim(),
-          請求点数:(row[8]||'').trim(),一部負担金:(row[11]||'').trim(),
-          食事基準額:(row[13]||'').trim(),食事標準負担:(row[14]||'').trim(),
-          事由コード:(row[15]||'').trim(),事由:(row[16]||'').trim(),
-          カルテ:(row[17]||'').trim(),details:[]
-        };
-      }else{
-        cur={
-          受付番号:(row[3]||'').trim(),保険者:(row[7]||'').trim(),区分:(row[13]||'').trim(),
-          氏名:(row[17]||'').trim(),カルテ:(row[18]||'').trim(),
-          増減点:(row[22]||'').trim(),事由:(row[23]||'').trim(),
-          請求内容:(row[25]||'').trim(),査定後内容:(row[27]||'').trim(),
-          details:[],合計請求:'',合計査定:''
-        };
-      }
+      if(isHenr)cur={診療年月:(row[1]||'').trim(),受付番号:(row[2]||'').trim(),保険者:(row[3]||'').trim(),区分:(row[4]||'').trim(),氏名:(row[6]||'').trim(),日数:(row[7]||'').trim(),請求点数:(row[8]||'').trim(),一部負担金:(row[11]||'').trim(),食事基準額:(row[13]||'').trim(),食事標準負担:(row[14]||'').trim(),事由コード:(row[15]||'').trim(),事由:(row[16]||'').trim(),カルテ:(row[17]||'').trim(),details:[]};
+      else cur={受付番号:(row[3]||'').trim(),保険者:(row[7]||'').trim(),区分:(row[13]||'').trim(),氏名:(row[17]||'').trim(),カルテ:(row[18]||'').trim(),増減点:(row[22]||'').trim(),事由:(row[23]||'').trim(),請求内容:(row[25]||'').trim(),査定後内容:(row[27]||'').trim(),details:[],合計請求:'',合計査定:''};
     }else if(row[0]==='4'&&cur){
-      if(isHenr){
-        if((row[3]||'').trim())cur.details.push({保険者:row[3].trim(),日数:row[7],点数:row[8],負担:row[12]});
-      }else{
-        const txt=(row[27]||'').trim();
-        if(txt)cur.details.push(txt);
-      }
-    }else if(row[0]==='5'&&cur&&!isHenr){
-      cur.合計請求=(row[25]||'').trim();
-      cur.合計査定=(row[27]||'').trim();
-    }
+      if(isHenr){if((row[3]||'').trim())cur.details.push({保険者:row[3].trim(),日数:row[7],点数:row[8],負担:row[12]});}
+      else{const txt=(row[27]||'').trim();if(txt)cur.details.push(txt);}
+    }else if(row[0]==='5'&&cur&&!isHenr){cur.合計請求=(row[25]||'').trim();cur.合計査定=(row[27]||'').trim();}
   }
-  if(cur)patients.push(cur);
-  return{meta,patients,isHenr};
+  if(cur)patients.push(cur);return{meta,patients,isHenr};
 }
-
 async function buildC(meta,patients,isHenr,font,paperSize){
-  const wb=new ExcelJS.Workbook();
-  const ws=wb.addWorksheet(isHenr?'返戻通知':'増減点通知');
-  setupPrint(ws,paperSize);
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet(isHenr?'返戻通知':'増減点通知');setupPrint(ws,paperSize);
   const COLS=isHenr?16:14;
-  Array.from({length:COLS},(_,i)=>ws.getColumn(i+1).width=isHenr
-    ?[7,10,9,6,14,5,8,7,6,8,8,10,10,8,6,28][i]
-    :[8,10,14,6,8,8,8,7,28,28,28,28,8,8][i]
-  );
-  let r=titleRows(ws,meta,COLS,font,C.HEAD_AMBER);
-
+  (isHenr?[7,10,9,6,14,5,8,7,6,8,8,10,10,8,6,28]:[8,10,14,6,8,8,8,7,28,28,28,28,8,8]).forEach((w,i)=>ws.getColumn(i+1).width=w);
+  let r=titleRows(ws,meta,COLS,font);
   patients.forEach((p,pi)=>{
-    const bg=pi%2===0?C.ALT:C.WHITE;
-    ws.getRow(r).height=13;
-
+    const bg=pi%2===0?C.ALT:C.WHITE;ws.getRow(r).height=13;
     if(isHenr){
-      ['診療年月','受付番号','保険者番号','区分','氏名','日数','請求点数','一部負担金','食事基準','食事標準負担','事由コード','事由（返戻理由）','','','',''].forEach((h,ci)=>{
-        if(ci<12)sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
-      });
-      mc(ws,r,12,16,'事由（返戻理由）',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
-      r++;
+      ['診療年月','受付番号','保険者番号','区分','氏名','日数','請求点数','一部負担金','食事基準','食事標準負担','事由コード'].forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'}));
+      mc(ws,r,12,16,'事由（返戻理由）',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});r++;
       ws.getRow(r).height=16;
-      [p.診療年月,p.受付番号,p.保険者,p.区分,p.氏名,p.日数,p.請求点数,p.一部負担金,p.食事基準額,p.食事標準負担,p.事由コード].forEach((v,ci)=>
-        sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
-      mc(ws,r,12,16,p.事由,{font,size:9,bg,align:'left',wrap:true,color:C.RED_TXT,bold:true});
-      r++;
-      if(p.details.length>0){
-        p.details.forEach(d=>{
-          ws.getRow(r).height=13;
-          mc(ws,r,1,3,'　└ 公費：'+d.保険者,{font,size:8,bg,align:'left',color:'555555'});
-          sc(ws,r,4,'',{font,size:8,bg});sc(ws,r,5,'',{font,size:8,bg});
-          sc(ws,r,6,d.日数,{font,size:8,bg,align:'center'});
-          sc(ws,r,7,d.点数,{font,size:8,bg,align:'center'});
-          sc(ws,r,8,d.負担,{font,size:8,bg,align:'center'});
-          for(let c=9;c<=16;c++)sc(ws,r,c,'',{font,size:8,bg});
-          r++;
-        });
-      }
+      [p.診療年月,p.受付番号,p.保険者,p.区分,p.氏名,p.日数,p.請求点数,p.一部負担金,p.食事基準額,p.食事標準負担,p.事由コード].forEach((v,ci)=>sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+      mc(ws,r,12,16,p.事由,{font,size:9,bg,align:'left',wrap:true,color:C.RED_TXT,bold:true});r++;
+      p.details.forEach(d=>{ws.getRow(r).height=13;mc(ws,r,1,3,'└公費：'+d.保険者,{font,size:8,bg,align:'left',color:'555555'});sc(ws,r,4,'',{font,size:8,bg});sc(ws,r,5,'',{font,size:8,bg});sc(ws,r,6,d.日数,{font,size:8,bg,align:'center'});sc(ws,r,7,d.点数,{font,size:8,bg,align:'center'});sc(ws,r,8,d.負担,{font,size:8,bg,align:'center'});for(let c=9;c<=16;c++)sc(ws,r,c,'',{font,size:8,bg});r++;});
     }else{
-      ['受付番号','保険者番号','氏名','区分','増減点数','事由','請求内容','','','査定後内容','','','合計請求','合計査定'].forEach((h,ci)=>{
-        if(![6,7,8,9,10,11].includes(ci))
-          sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
-      });
+      ['受付番号','保険者番号','氏名','区分','増減点数','事由'].forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'}));
       mc(ws,r,7,9,'請求内容',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
       mc(ws,r,10,12,'査定後内容／審査理由',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});
-      r++;
+      sc(ws,r,13,'合計請求',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
+      sc(ws,r,14,'合計査定',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});r++;
       ws.getRow(r).height=16;
-      [p.受付番号,p.保険者,p.氏名,p.区分,p.増減点,p.事由].forEach((v,ci)=>
-        sc(ws,r,ci+1,v,{font,size:9,bg,align:'center',color:ci===4&&p.増減点.startsWith('-')?C.MINUS_TXT:'000000',bold:ci===4}));
+      [p.受付番号,p.保険者,p.氏名,p.区分,p.増減点,p.事由].forEach((v,ci)=>sc(ws,r,ci+1,v,{font,size:9,bg,align:'center',color:ci===4&&p.増減点.startsWith('-')?C.MINUS_TXT:'000000',bold:ci===4}));
       mc(ws,r,7,9,p.請求内容,{font,size:9,bg,align:'left',wrap:true});
       mc(ws,r,10,12,p.査定後内容,{font,size:9,bg,align:'left',wrap:true,color:C.RED_TXT});
-      sc(ws,r,13,p.合計請求,{font,size:9,bg,align:'center'});
-      sc(ws,r,14,p.合計査定,{font,size:9,bg,align:'center',color:C.MINUS_TXT,bold:true});
-      r++;
-      if(p.details.length>0){
-        p.details.forEach(d=>{
-          ws.getRow(r).height=14;
-          for(let c=1;c<=6;c++)sc(ws,r,c,'',{font,size:8,bg,border:false});
-          mc(ws,r,7,12,'　└ '+d,{font,size:8,bg,align:'left',wrap:true,color:'555555'});
-          sc(ws,r,13,'',{font,size:8,bg});sc(ws,r,14,'',{font,size:8,bg});
-          r++;
-        });
-      }
+      sc(ws,r,13,p.合計請求,{font,size:9,bg,align:'center'});sc(ws,r,14,p.合計査定,{font,size:9,bg,align:'center',color:C.MINUS_TXT,bold:true});r++;
+      p.details.forEach(d=>{ws.getRow(r).height=14;for(let c=1;c<=6;c++)sc(ws,r,c,'',{font,size:8,bg,border:false});mc(ws,r,7,12,'└'+d,{font,size:8,bg,align:'left',wrap:true,color:'555555'});sc(ws,r,13,'',{font,size:8,bg});sc(ws,r,14,'',{font,size:8,bg});r++;});
     }
     divRow(ws,r,COLS);r++;
   });
   return wb.xlsx.writeBuffer();
 }
 
-/* ══════════════════════════════════════
-   パターンD: 増減点（社保）
-══════════════════════════════════════ */
+/* ══════════════ パターンD ══════════════ */
 function parseD(rows,fname){
   const isSast=fname.toUpperCase().startsWith('MISAST');
   const r1=rows[0];
-  const meta={
-    title:(isSast?'増減点通知書（社保・再審査）':'増減点通知書（社保・突合）')+' 医科 '+r1[1],
-    institution:'医療機関コード：'+(r1[5]||'')+' '+(r1[6]||''),
-    issuer:(r1[7]||'').trim()
-  };
-  // type=2行が患者ヘッダー列定義、type=3が明細ヘッダー列定義
-  // type=4が患者データ、type=5が明細データ
+  const meta={title:(isSast?'増減点通知書（社保・再審査）':'増減点通知書（社保・突合）')+' 医科 '+r1[1],institution:'医療機関コード：'+(r1[5]||'')+' '+(r1[6]||''),issuer:(r1[7]||'').trim()};
   const patients=[];let cur=null;
   for(const row of rows.slice(3)){
     if(!row[0])continue;
     if(row[0]==='4'){
       if(cur)patients.push(cur);
-      cur={
-        診療年月:(row[1]||'').trim(),整理番号:(row[2]||'').trim(),
-        保険者:(row[9]||'').trim(),氏名:(row[17]||'').trim(),
-        性別:(row[18]||'').trim()==='1'?'男':'女',生年月日:(row[19]||'').trim(),
-        療養給付金:(row[21]||'').trim(),件数:(row[22]||'').trim(),
-        日数:(row[23]||'').trim(),点数:(row[24]||'').trim(),
-        一部負担:(row[25]||'').trim(),details:[]
-      };
+      cur={診療年月:(row[1]||'').trim(),整理番号:(row[2]||'').trim(),保険者:(row[9]||'').trim(),氏名:(row[17]||'').trim(),性別:(row[18]||'').trim()==='1'?'男':'女',生年月日:(row[19]||'').trim(),療養給付金:(row[21]||'').trim(),件数:(row[22]||'').trim(),日数:(row[23]||'').trim(),点数:(row[24]||'').trim(),一部負担:(row[25]||'').trim(),details:[]};
     }else if(row[0]==='5'&&cur){
-      const 増減点=(row[7]||'').trim();
-      const 事由=(row[8]||'').trim();
-      const 内容=(row[9]||'').trim();
-      const 前点=(row[14]||'').trim();
-      const 後点=(row[16]||'').trim();
-      if(内容||増減点){
-        cur.details.push({増減点,事由,内容,前点,後点});
-      }
+      const 増減点=(row[7]||'').trim(),事由=(row[8]||'').trim(),内容=(row[9]||'').trim(),前点=(row[14]||'').trim(),後点=(row[16]||'').trim();
+      if(内容||増減点)cur.details.push({増減点,事由,内容,前点,後点});
     }
   }
-  if(cur)patients.push(cur);
-  return{meta,patients};
+  if(cur)patients.push(cur);return{meta,patients};
 }
-
 async function buildD(meta,patients,font,paperSize){
-  const wb=new ExcelJS.Workbook();
-  const ws=wb.addWorksheet('増減点通知');
-  setupPrint(ws,paperSize);
-  const CW=[7,14,9,6,6,6,7,7,6,28,5,5,5,5];
-  CW.forEach((w,i)=>ws.getColumn(i+1).width=w);
-  const COLS=14;
-  let r=titleRows(ws,meta,COLS,font,C.HEAD_PURPLE);
-
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet('増減点通知');setupPrint(ws,paperSize);
+  [7,14,9,6,6,6,7,7,6,28,5,5,5,5].forEach((w,i)=>ws.getColumn(i+1).width=w);
+  let r=titleRows(ws,meta,14,font);
   patients.forEach((p,pi)=>{
-    const bg=pi%2===0?C.ALT:C.WHITE;
-    ws.getRow(r).height=13;
-    ['診療年月','整理番号','保険者番号','氏名','性別','生年月日','療養給付金','件数','日数','増減点内容','前点数','後点数','増減点数','事由'].forEach((h,ci)=>
-      sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_PURPLE,align:'center'}));
-    r++;
+    const bg=pi%2===0?C.ALT:C.WHITE;ws.getRow(r).height=13;
+    ['診療年月','整理番号','保険者番号','氏名','性別','生年月日','療養給付金','件数','日数','増減点内容','前点数','後点数','増減点数','事由'].forEach((h,ci)=>sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_PURPLE,align:'center'}));r++;
     ws.getRow(r).height=16;
-    [p.診療年月,p.整理番号,p.保険者,p.氏名,p.性別,p.生年月日,p.療養給付金,p.件数,p.日数].forEach((v,ci)=>
-      sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
-    sc(ws,r,10,'（明細は下記参照）',{font,size:8,bg,align:'left',color:'888888'});
-    for(let c=11;c<=14;c++)sc(ws,r,c,'',{font,size:9,bg});
-    r++;
-    if(p.details.length>0){
-      p.details.forEach(d=>{
-        if(!d.内容&&!d.増減点)return;
-        ws.getRow(r).height=14;
-        for(let c=1;c<=9;c++){
-          const cell=ws.getCell(r,c);
-          cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+bg}};
-          cell.border={left:c===1?thin():noB(),right:noB(),top:noB(),bottom:noB()};
-        }
-        mc(ws,r,10,10,d.内容,{font,size:8,bg,align:'left',wrap:true,
-          color:d.事由==='A'?'A32D2D':d.事由==='B'?'854F0B':d.事由==='C'?'4527A0':'000000'});
-        sc(ws,r,11,d.前点,{font,size:8,bg,align:'center'});
-        sc(ws,r,12,d.後点,{font,size:8,bg,align:'center'});
-        sc(ws,r,13,d.増減点,{font,size:9,bold:!!d.増減点,bg,align:'center',
-          color:d.増減点.startsWith('-')?C.MINUS_TXT:d.増減点.startsWith('+')?'375623':'000000'});
-        sc(ws,r,14,d.事由,{font,size:9,bold:true,bg,align:'center',
-          color:d.事由==='A'?'A32D2D':d.事由==='B'?'854F0B':d.事由==='C'?'4527A0':'000000'});
-        r++;
-      });
-    }
-    divRow(ws,r,COLS);r++;
+    [p.診療年月,p.整理番号,p.保険者,p.氏名,p.性別,p.生年月日,p.療養給付金,p.件数,p.日数].forEach((v,ci)=>sc(ws,r,ci+1,v,{font,size:9,bg,align:'center'}));
+    sc(ws,r,10,'（明細は下記）',{font,size:8,bg,color:'888888'});for(let c=11;c<=14;c++)sc(ws,r,c,'',{font,size:9,bg});r++;
+    p.details.forEach(d=>{
+      if(!d.内容&&!d.増減点)return;
+      ws.getRow(r).height=14;
+      for(let c=1;c<=9;c++){const cell=ws.getCell(r,c);cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+bg}};cell.border={left:c===1?thinB():noB(),right:noB(),top:noB(),bottom:noB()};}
+      mc(ws,r,10,10,d.内容,{font,size:8,bg,wrap:true,color:d.事由==='A'?'A32D2D':d.事由==='B'?'854F0B':d.事由==='C'?'4527A0':'000000'});
+      sc(ws,r,11,d.前点,{font,size:8,bg,align:'center'});sc(ws,r,12,d.後点,{font,size:8,bg,align:'center'});
+      sc(ws,r,13,d.増減点,{font,size:9,bold:!!d.増減点,bg,align:'center',color:d.増減点.startsWith('-')?C.MINUS_TXT:d.増減点.startsWith('+')?'375623':'000000'});
+      sc(ws,r,14,d.事由,{font,size:9,bold:true,bg,align:'center',color:d.事由==='A'?'A32D2D':d.事由==='B'?'854F0B':d.事由==='C'?'4527A0':'000000'});r++;
+    });
+    divRow(ws,r,14);r++;
   });
   return wb.xlsx.writeBuffer();
 }
 
-/* ══════════════════════════════════════
-   変換実行
-══════════════════════════════════════ */
+/* ══════════════ パターンE: 支払通知書 ══════════════ */
+function parseE(rows){
+  const r1=rows[0];
+  const meta={title:'支払通知書 医科 '+r1[1],institution:'医療機関コード：'+(r1[5]||'')+' '+(r1[6]||''),issuer:(r1[7]||'').trim()};
+  // type=2: サマリーヘッダー, type=3: サマリーデータ1行
+  // type=4: 支払区分ヘッダー, type=5: 支払区分明細(複数行)
+  const summary = rows.find(r=>r[0]==='3') || [];
+  const hdrs2   = rows.find(r=>r[0]==='2') || [];
+  const hdrs4   = rows.find(r=>r[0]==='4') || [];
+  const details = rows.filter(r=>r[0]==='5');
+  return{meta,summary,hdrs2,hdrs4,details};
+}
+async function buildE(meta,summary,hdrs2,hdrs4,details,font,paperSize){
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet('支払通知書');setupPrint(ws,paperSize);
+  const COLS=10;
+  Array.from({length:COLS},(_,i)=>ws.getColumn(i+1).width=[10,10,10,10,10,10,10,10,10,10][i]);
+  let r=titleRows(ws,meta,COLS,font);
+
+  // サマリーセクション
+  ws.getRow(r).height=13;
+  mc(ws,r,1,COLS,'【支払サマリー】',{font,size:9,bold:true,color:'FFFFFF',bg:C.HEAD_PINK,align:'center'});r++;
+  // ヘッダー行
+  ws.getRow(r).height=28;
+  const sHdrs=hdrs2.slice(1);
+  sHdrs.forEach((h,ci)=>{if(ci<COLS)sc(ws,r,ci+1,h.replace(/＿/g,'\n'),{font,size:7,bold:true,color:'FFFFFF',bg:C.HEAD_PINK,align:'center',wrap:true});});r++;
+  // データ行
+  ws.getRow(r).height=14;
+  summary.slice(1).forEach((v,ci)=>{if(ci<COLS)sc(ws,r,ci+1,v,{font,size:9,bold:true,bg:C.ALT,align:'right'});});r++;
+
+  // 区切り
+  divRow(ws,r,COLS);r++;
+
+  // 支払区分明細セクション
+  ws.getRow(r).height=13;
+  mc(ws,r,1,COLS,'【支払区分別明細】',{font,size:9,bold:true,color:'FFFFFF',bg:C.HEAD_TEAL,align:'center'});r++;
+  ws.getRow(r).height=13;
+  const dHdrs=hdrs4.slice(1);
+  dHdrs.forEach((h,ci)=>{if(ci<COLS)sc(ws,r,ci+1,h,{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_TEAL,align:'center'});});r++;
+  details.forEach((row,pi)=>{
+    ws.getRow(r).height=14;const bg=pi%2===0?C.ALT:C.WHITE;
+    row.slice(1).forEach((v,ci)=>{if(ci<COLS)sc(ws,r,ci+1,v,{font,size:9,bg,align:ci===1?'left':'right'});});r++;
+  });
+  return wb.xlsx.writeBuffer();
+}
+
+/* ══════════════ パターンF: 分科給付金計算書 ══════════════ */
+function parseF(rows){
+  const r1=rows[0];
+  const meta={title:'分科給付金計算書 医科 '+r1[1],institution:'医療機関コード：'+(r1[5]||'')+' '+(r1[6]||''),issuer:(r1[7]||'').trim()};
+  const hdrs=rows.find(r=>r[0]==='2')||[];
+  const dataRows=rows.filter(r=>r[0]==='3');
+  // 管掌区分1=医療保険, 3=公費 / 明細合計区分1=明細, 9=合計
+  return{meta,hdrs,dataRows};
+}
+async function buildF(meta,hdrs,dataRows,font,paperSize){
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet('分科給付金計算書');setupPrint(ws,paperSize);
+  const COLS=17;
+  Array.from({length:COLS},(_,i)=>ws.getColumn(i+1).width=
+    [7,5,7,7,7,8,8,8,7,8,8,8,8,8,8,8,8][i]);
+  let r=titleRows(ws,meta,COLS,font);
+
+  // グループヘッダー行1
+  ws.getRow(r).height=13;
+  mc(ws,r,1,4,'基本情報',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_TEAL,align:'center'});
+  mc(ws,r,5,8,'療養の給付（入院）',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_BLUE,align:'center'});
+  mc(ws,r,9,12,'療養の給付（入院外）',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_GREEN,align:'center'});
+  mc(ws,r,13,15,'食事・生活療養',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_AMBER,align:'center'});
+  mc(ws,r,16,17,'調整',{font,size:8,bold:true,color:'FFFFFF',bg:C.HEAD_PURPLE,align:'center'});r++;
+
+  // 列ヘッダー行2
+  ws.getRow(r).height=24;
+  const shortHdrs=['管掌区分','明細/合計','管掌コード','','入院件数','入院点数','入院負担金','入院金額','入院外件数','入院外点数','入院外負担金','入院外金額','食事基準額','食事標準負担','食事金額','算定額','再審査調整額'];
+  shortHdrs.forEach((h,ci)=>{
+    const headBg=[C.HEAD_TEAL,C.HEAD_TEAL,C.HEAD_TEAL,C.HEAD_TEAL,C.HEAD_BLUE,C.HEAD_BLUE,C.HEAD_BLUE,C.HEAD_BLUE,C.HEAD_GREEN,C.HEAD_GREEN,C.HEAD_GREEN,C.HEAD_GREEN,C.HEAD_AMBER,C.HEAD_AMBER,C.HEAD_AMBER,C.HEAD_PURPLE,C.HEAD_PURPLE][ci];
+    sc(ws,r,ci+1,h,{font,size:7,bold:true,color:'FFFFFF',bg:headBg,align:'center',wrap:true});
+  });r++;
+
+  // データ
+  const managedNames={'1':'医療保険','3':'公費'};
+  dataRows.forEach((row,pi)=>{
+    ws.getRow(r).height=14;
+    const isTotal=row[2]==='9';
+    const bg=isTotal?'FFF2CC':(pi%2===0?C.ALT:C.WHITE);
+    const bold=isTotal;
+    const managed=managedNames[row[1]]||row[1];
+    const kubun=isTotal?'合計':'明細';
+    [managed,kubun,row[3],''].forEach((v,ci)=>sc(ws,r,ci+1,v,{font,size:isTotal?9:8,bold,bg,align:'center'}));
+    row.slice(4,18).forEach((v,ci)=>sc(ws,r,ci+5,v,{font,size:isTotal?9:8,bold,bg,align:'right',color:ci===12&&v.startsWith('-')?C.MINUS_TXT:'000000'}));
+    r++;
+  });
+  return wb.xlsx.writeBuffer();
+}
+
+/* ══════════════ パターンG: 診療報酬明細書一覧（全列） ══════════════ */
+function parseG(rows){
+  const r1=rows[0];
+  const meta={title:'診療報酬明細書一覧 医科 '+r1[1],institution:'医療機関コード：'+(r1[5]||'')+' '+(r1[6]||''),issuer:(r1[7]||'').trim()};
+  const headers=rows[1].slice(1); // col[0]は'2'
+  const dataRows=rows.slice(2).filter(r=>r[0]==='3');
+  return{meta,headers,dataRows};
+}
+async function buildG(meta,headers,dataRows,font,paperSize){
+  const wb=new ExcelJS.Workbook();const ws=wb.addWorksheet('診療報酬明細書一覧');
+  // fitToHeightは0（縦は複数ページOK）、横は1ページに収める
+  ws.pageSetup={paperSize:paperSize==='A3'?8:9,orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0};
+  ws.pageSetup.margins={left:.3,right:.3,top:.4,bottom:.4,header:.2,footer:.2};
+  ws.views=[{showGridLines:false}];
+  // タイトル行固定（印刷時）
+  ws.pageSetup.printTitlesRow='1:4';
+
+  // 実データが存在する列インデックスを特定（col[0]はtype列なので除外）
+  const filledCols=[];
+  for(let ci=0;ci<headers.length;ci++){
+    const hasData=dataRows.some(r=>(ci+1)<r.length&&r[ci+1].trim());
+    if(hasData)filledCols.push(ci);
+  }
+
+  // グループ定義
+  const GROUPS=[
+    {label:'基本情報',bg:C.HEAD_BLUE,cols:[0,1,2,3,5,10,11,12,13,14,15,16,80]},
+    {label:'診療科',bg:C.HEAD_TEAL,cols:[6,7,8,9]},
+    {label:'医療保険',bg:C.HEAD_GREEN,cols:[17,18,19,20,21,22,23,24,25,26,27]},
+    {label:'老人保健',bg:C.HEAD_AMBER,cols:[28,29]},
+    {label:'第一公費',bg:C.HEAD_PURPLE,cols:[30,31,32,33,34,35,36,37,38,39]},
+  ];
+
+  // 出力する列をグループ順に並べる（filledColsに存在するもののみ）
+  const outCols=[];
+  GROUPS.forEach(g=>{
+    g.cols.forEach(ci=>{if(filledCols.includes(ci))outCols.push({ci,group:g.label,groupBg:g.bg});});
+  });
+
+  const TOTAL=outCols.length;
+
+  // 列幅設定（ヘッダー名から自動算出）
+  outCols.forEach((col,i)=>{
+    const h=headers[col.ci];
+    const shortH=h.includes('＿')?h.split('＿').pop():h;
+    ws.getColumn(i+1).width=Math.max(6,Math.min(14,shortH.length*1.2+2));
+  });
+
+  let r=1;
+  // タイトル
+  ws.getRow(r).height=20;
+  mc(ws,r,1,TOTAL,meta.title,{font,size:11,bold:true,color:'FFFFFF',bg:C.TITLE_BG,align:'center'});r++;
+  // メタ
+  ws.getRow(r).height=14;
+  const mid2=Math.floor(TOTAL*0.6);
+  mc(ws,r,1,mid2,meta.institution,{font,size:8,bold:true,color:C.META_TXT,bg:C.META_BG,align:'left'});
+  mc(ws,r,mid2+1,TOTAL,meta.issuer+' （全'+dataRows.length+'件）',{font,size:8,color:'333333',bg:C.META_BG,align:'right'});r++;
+
+  // グループヘッダー行
+  ws.getRow(r).height=13;
+  let grpStart=1;let prevGrp='';
+  outCols.forEach((col,i)=>{
+    if(col.group!==prevGrp){
+      // 前のグループを閉じる
+      if(prevGrp&&grpStart<i+1){/* 既にmc済み */}
+      grpStart=i+1;prevGrp=col.group;
+    }
+  });
+  // グループごとにmerge
+  let gi=0;
+  while(gi<outCols.length){
+    const grp=outCols[gi].group;const bg=outCols[gi].groupBg;
+    let gj=gi;
+    while(gj<outCols.length&&outCols[gj].group===grp)gj++;
+    if(gj-gi>1)mc(ws,r,gi+1,gj,grp,{font,size:8,bold:true,color:'FFFFFF',bg,align:'center'});
+    else sc(ws,r,gi+1,grp,{font,size:8,bold:true,color:'FFFFFF',bg,align:'center'});
+    gi=gj;
+  }r++;
+
+  // 列ヘッダー行
+  ws.getRow(r).height=28;
+  outCols.forEach((col,i)=>{
+    const h=headers[col.ci];
+    const shortH=h.includes('＿')?h.split('＿').pop():h;
+    sc(ws,r,i+1,shortH.replace(/（/g,'\n（'),{font,size:7,bold:true,color:'FFFFFF',bg:outCols[i].groupBg,align:'center',wrap:true});
+  });r++;
+
+  // データ行
+  const sexMap={'1':'男','2':'女'};
+  const procMap={'1':'通常','2':'再審査','3':'取消'};
+  dataRows.forEach((row,pi)=>{
+    ws.getRow(r).height=12;
+    const bg=pi%2===0?C.ALT:C.WHITE;
+    outCols.forEach((col,i)=>{
+      let v=(col.ci+1<row.length?row[col.ci+1]:'').trim();
+      // 値変換
+      if(col.ci===13&&v)v=sexMap[v]||v;
+      if(col.ci===1&&v)v=procMap[v]||v;
+      const isNum=v&&!isNaN(v.replace(/[,\-]/g,''))&&![13,14,15,16,17,18,19,20].includes(col.ci);
+      sc(ws,r,i+1,v,{font,size:7,bg,align:isNum?'right':'left'});
+    });
+    r++;
+  });
+
+  // ウィンドウ枠固定（4行ヘッダー固定）
+  ws.views=[{state:'frozen',xSplit:0,ySplit:4,showGridLines:false}];
+
+  return wb.xlsx.writeBuffer();
+}
+
+/* ══════════════ 変換実行 ══════════════ */
 convertBtn.addEventListener('click',async()=>{
   if(!files.length)return;
-  convertBtn.disabled=true;
-  progWrap.style.display='block';
-  resultsEl.innerHTML='';
+  convertBtn.disabled=true;progWrap.style.display='block';resultsEl.innerHTML='';
   const font=document.getElementById('fontName').value;
   const paperSize=document.getElementById('paperSize').value;
 
@@ -598,29 +613,16 @@ convertBtn.addEventListener('click',async()=>{
     progMsg.textContent=`${f.name} を変換中... (${i+1}/${files.length})`;
     const div=document.createElement('div');
     try{
-      const text=await readSJIS(f);
-      const rows=parseCSV(text);
-      const pat=detectPattern(f.name);
+      const text=await readSJIS(f);const rows=parseCSV(text);const pat=detectPattern(f.name);
       let buf,label;
-      if(pat==='A'){
-        const{meta,patients}=parseA(rows);
-        buf=await buildA(meta,patients,font,paperSize);
-        label=`${meta.title} · ${patients.length}件`;
-      }else if(pat==='B'){
-        const{meta,patients}=parseB(rows);
-        buf=await buildB(meta,patients,font,paperSize);
-        label=`${meta.title} · ${patients.length}件`;
-      }else if(pat==='C'){
-        const{meta,patients,isHenr}=parseC(rows,f.name);
-        buf=await buildC(meta,patients,isHenr,font,paperSize);
-        label=`${meta.title} · ${patients.length}件`;
-      }else if(pat==='D'){
-        const{meta,patients}=parseD(rows,f.name);
-        buf=await buildD(meta,patients,font,paperSize);
-        label=`${meta.title} · ${patients.length}件`;
-      }else{
-        throw new Error('対応していないファイル形式です（ファイル名を確認してください）');
-      }
+      if(pat==='A'){const{meta,patients}=parseA(rows);buf=await buildA(meta,patients,font,paperSize);label=`${meta.title} · ${patients.length}件`;}
+      else if(pat==='B'){const{meta,patients}=parseB(rows);buf=await buildB(meta,patients,font,paperSize);label=`${meta.title} · ${patients.length}件`;}
+      else if(pat==='C'){const{meta,patients,isHenr}=parseC(rows,f.name);buf=await buildC(meta,patients,isHenr,font,paperSize);label=`${meta.title} · ${patients.length}件`;}
+      else if(pat==='D'){const{meta,patients}=parseD(rows,f.name);buf=await buildD(meta,patients,font,paperSize);label=`${meta.title} · ${patients.length}件`;}
+      else if(pat==='E'){const{meta,summary,hdrs2,hdrs4,details}=parseE(rows);buf=await buildE(meta,summary,hdrs2,hdrs4,details,font,paperSize);label=`${meta.title} · 支払区分${details.length}件`;}
+      else if(pat==='F'){const{meta,hdrs,dataRows}=parseF(rows);buf=await buildF(meta,hdrs,dataRows,font,paperSize);label=`${meta.title} · ${dataRows.length}行`;}
+      else if(pat==='G'){const{meta,headers,dataRows}=parseG(rows);buf=await buildG(meta,headers,dataRows,font,paperSize);label=`${meta.title} · ${dataRows.length}件`;}
+      else throw new Error('未対応のファイル形式です（ファイル名を確認してください）');
       const outName=f.name.replace(/\.csv$/i,'.xlsx');
       const blob=new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
       const url=URL.createObjectURL(blob);
@@ -632,10 +634,8 @@ convertBtn.addEventListener('click',async()=>{
     }
     resultsEl.appendChild(div);
   }
-  progFill.style.width='100%';
-  progMsg.textContent='すべて完了！';
-  setTimeout(()=>{progWrap.style.display='none';},2000);
-  convertBtn.disabled=false;
+  progFill.style.width='100%';progMsg.textContent='すべて完了！';
+  setTimeout(()=>{progWrap.style.display='none';},2000);convertBtn.disabled=false;
 });
 </script>
 </body>
