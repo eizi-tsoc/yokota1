@@ -209,7 +209,7 @@ function sc(ws,r,c,val,o={}){
   const cell=ws.getCell(r,c);
   cell.value=val;
   cell.font={name:o.font||'Meiryo',size:o.size||9,bold:o.bold||false,color:{argb:'FF'+(o.color||'000000')}};
-  cell.alignment={horizontal:o.align||'left',vertical:'middle',wrapText:o.wrap||false};
+  cell.alignment={horizontal:o.align||'left',vertical:'middle',wrapText:o.wrap||false,shrinkToFit:!o.wrap};
   if(o.bg)cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF'+o.bg}};
   const b=o.border!==false;
   cell.border={left:b?thinB():noB(),right:b?thinB():noB(),top:b?thinB():noB(),bottom:b?thinB():noB()};
